@@ -3,7 +3,8 @@
 
 import sys
 
-from . import flags
+from rosshm import log
+from rosshm.cmd import flags
 
 def main():
 	args = flags.parse()

@@ -4,7 +4,7 @@
 import sys
 import argparse
 
-from rosshm import version
+from rosshm import log, version
 
 __all__ = ['parse']
 
@@ -16,8 +16,8 @@ def _new():
 		action = 'version', version = version.string())
 	p.add_argument('--debug', help = 'enable debug settings',
 		action = 'store_true', default = False)
-	# ~ p.add_argument('--log', help = "set log level (%s)" % log.defaultLevel(),
-		# ~ metavar = 'level', default = log.defaultLevel(), choices = log.levels())
+	p.add_argument('--log', help = "set log level (%s)" % log.defaultLevel(),
+		metavar = 'level', default = log.defaultLevel(), choices = log.levels())
 	p.add_argument('--config', help = 'default: ~/.config/rosshm.conf',
 		metavar = 'filename', default = '~/.config/rosshm.conf')
 	return p
@@ -25,9 +25,9 @@ def _new():
 def parse():
 	p = _new()
 	args = p.parse_args()
-	# ~ if args.debug:
-		# ~ log.init('debug')
-	# ~ else:
-		# ~ log.init(args.log)
-	# ~ log.debug("sadm version %s" % version.get())
+	if args.debug:
+		log.init('debug')
+	else:
+		log.init(args.log)
+	log.debug(f"rosshm version {version.get()}")
 	return args

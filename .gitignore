@@ -2,6 +2,7 @@
 __pycache__
 /build
 /dist
+/pip-wheel-metadata
 rosshm.egg-info
 rosshm/_version.py
 rosshm/_version_build.py
