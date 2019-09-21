@@ -1,0 +1,29 @@
+[Unit]
+Description=rosshm
+After=syslog.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+Restart=on-failure
+KillSignal=SIGQUIT
+StandardError=syslog
+PrivateTmp=true
+RuntimeDirectory=rosshm
+RuntimeDirectoryMode=0750
+Environment=ROSSHM_HOME=/opt/rosshm
+Environment=ROSSHM_UID=rosshm
+Environment=ROSSHM_GID=rosshm
+Environment=ROSSHM_PORT=3721
+EnvironmentFile=-/etc/default/rosshm
+PIDFile=/run/rosshm/uwsgi.pid
+ExecStart=/usr/bin/uwsgi --need-plugin python3 \
+	--set-ph rosshm-home=${ROSSHM_HOME} \
+	--set-ph rosshm-uid=${ROSSHM_UID} \
+	--set-ph rosshm-gid=${ROSSHM_GID} \
+	--set-ph listen-port=${ROSSHM_PORT} \
+	--safe-pidfile /run/rosshm/uwsgi.pid \
+	--ini /etc/opt/rosshm.ini
+
+[Install]
+WantedBy=multi-user.target
