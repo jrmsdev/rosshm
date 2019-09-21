@@ -1,0 +1,7 @@
+include *.ini
+include *.sh
+include *.toml
+include *.txt
+
+recursive-include devel *.ini
+recursive-include devel *.sh
