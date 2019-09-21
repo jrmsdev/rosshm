@@ -30,4 +30,5 @@ def parse():
 	else:
 		log.init(args.log)
 	log.debug(f"rosshm version {version.get()}")
+	log.debug(f"config {args.config}")
 	return args
