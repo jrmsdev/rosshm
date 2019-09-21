@@ -18,8 +18,8 @@ def _new():
 		action = 'store_true', default = False)
 	p.add_argument('--log', help = "set log level (%s)" % log.defaultLevel(),
 		metavar = 'level', default = log.defaultLevel(), choices = log.levels())
-	p.add_argument('--config', help = 'default: ~/.config/rosshm.conf',
-		metavar = 'filename', default = '~/.config/rosshm.conf')
+	p.add_argument('--config', help = 'default: ~/.config/rosshm.ini',
+		metavar = 'filename', default = '~/.config/rosshm.ini')
 	return p
 
 def parse():
