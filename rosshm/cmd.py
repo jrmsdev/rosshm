@@ -3,7 +3,10 @@
 
 import sys
 
+from . import flags
+
 def main():
+	args = flags.parse()
 	return 0
 
 if __name__ == '__main__':
