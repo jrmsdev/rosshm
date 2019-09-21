@@ -2,5 +2,5 @@
 check-manifest
 python3 setup.py check
 python3 setup.py egg_info
-#~ pytest $@
+pytest $@
 exit 0
