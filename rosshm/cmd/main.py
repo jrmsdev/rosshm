@@ -2,7 +2,7 @@
 # See LICENSE file.
 
 import sys
-import subprocess as sp
+import subprocess as proc
 from os import path
 
 from rosshm import log
@@ -17,8 +17,8 @@ def main():
 	)
 	try:
 		log.debug(f"run {cmd}")
-		sp.run(cmd, check = True)
-	except sp.CalledProcessError as err:
+		proc.run(cmd, check = True)
+	except proc.CalledProcessError as err:
 		log.error(f"{err}")
 		return err.returncode
 	except KeyboardInterrupt:

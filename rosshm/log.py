@@ -37,7 +37,7 @@ def _setColored():
 
 # debug file info
 
-_idx = __file__.find('log.py')
+_idx = __file__.find('log.py') - 7
 
 def _getCaller(depth):
 	inf = sys._getframe(depth)
