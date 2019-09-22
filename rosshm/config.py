@@ -13,7 +13,10 @@ _cfg = ConfigParser(
 	allow_no_value = False,
 	strict = False,
 	interpolation = ExtendedInterpolation(),
-	defaults = {},
+	defaults = {
+		'debug': False,
+		'log.level': 'warn',
+	},
 )
 
 def init(fn = None):
@@ -22,3 +25,11 @@ def init(fn = None):
 			path.expanduser(path.join('~', '.config', 'rosshm.ini')))
 	with open(fn, 'r') as fh:
 		_cfg.read_file(fh)
+	if not _cfg.has_section('rosshm'):
+		_cfg.add_section('rosshm')
+
+def get(option, **kwargs):
+	return _cfg.get('rosshm', option, **kwargs)
+
+def getbool(option, **kwargs):
+	return _cfg.getboolean('rosshm', option, **kwargs)
