@@ -1,8 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from bottle import Bottle
+from rosshm.wapp import wapp
 
 __all__ = ['application']
 
-application = Bottle()
+application = wapp.init()
