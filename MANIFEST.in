@@ -4,6 +4,8 @@ include *.sh
 include *.toml
 include *.txt
 
+include dist.py
+
 recursive-include devel *.ini
 recursive-include devel *.sh
 recursive-include devel *.txt

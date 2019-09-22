@@ -8,6 +8,8 @@ from os import path, getenv
 from rosshm import log
 from rosshm.cmd import flags
 
+__all__ = ['main']
+
 def _gethome():
 	h = getenv('ROSSHM_HOME', None)
 	if h is None:
@@ -24,9 +26,7 @@ def main():
 		'--touch-reload', cfgfn,
 		'--ini', cfgfn,
 	)
-	cmdenv = {
-		'ROSSHM_CONFIG': cfgfn,
-	}
+	cmdenv = {'ROSSHM_CONFIG': cfgfn}
 	try:
 		log.debug(f"run {cmd}")
 		proc.run(cmd, shell = False, env = cmdenv, check = True)
