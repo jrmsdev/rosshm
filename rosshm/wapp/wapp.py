@@ -3,5 +3,8 @@
 
 from bottle import Bottle
 
+from rosshm import config
+
 def init():
+	config.init()
 	return Bottle()

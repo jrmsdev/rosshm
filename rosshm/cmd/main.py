@@ -24,9 +24,12 @@ def main():
 		'--touch-reload', cfgfn,
 		'--ini', cfgfn,
 	)
+	cmdenv = {
+		'ROSSHM_CONFIG': cfgfn,
+	}
 	try:
 		log.debug(f"run {cmd}")
-		proc.run(cmd, check = True)
+		proc.run(cmd, shell = False, env = cmdenv, check = True)
 	except proc.CalledProcessError as err:
 		log.error(f"{err}")
 		return err.returncode
