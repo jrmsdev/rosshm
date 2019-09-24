@@ -15,4 +15,9 @@ def init():
 	else:
 		log.init(config.get('log.level'))
 	log.debug(f"rosshm version {version.get()}")
-	return Bottle()
+	wapp = Bottle()
+	if config.getbool('core.enable'):
+		log.debug('core enable')
+	if config.getbool('web.enable'):
+		log.debug('web enable')
+	return wapp

@@ -16,6 +16,8 @@ _cfg = ConfigParser(
 	defaults = {
 		'debug': False,
 		'log.level': 'warn',
+		'core.enable': True,
+		'web.enable': True,
 	},
 )
 
