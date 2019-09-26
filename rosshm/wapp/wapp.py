@@ -7,6 +7,7 @@ from os import path
 
 from rosshm import config, log, version
 from rosshm.core import core
+from rosshm.libdir import libdir
 from rosshm.web import web
 
 __all__ = ['init']
@@ -24,8 +25,10 @@ def init():
 	bottle.TEMPLATE_PATH = []
 	wapp = bottle.Bottle()
 
-	log.debug('bottle config')
-	wapp.config.load_config(config.filename())
+	for inifn in (path.abspath(libdir / 'wapp' / 'bottle.ini'), config.get('wapp.ini')):
+		if inifn == '': continue
+		log.debug(f"bottle config {inifn}")
+		wapp.config.load_config(inifn)
 
 	log.debug('database plugin')
 	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
