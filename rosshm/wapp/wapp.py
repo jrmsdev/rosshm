@@ -26,10 +26,10 @@ def init():
 
 	if config.getbool('core.enable'):
 		log.debug('core init')
-		core.init(config)
+		core.init(config, wapp)
 
 	if config.getbool('web.enable'):
 		log.debug('web init')
-		web.init(config)
+		web.init(config, wapp)
 
 	return wapp

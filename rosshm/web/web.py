@@ -5,5 +5,5 @@ __all__ = ['init']
 
 from rosshm import log
 
-def init(config):
+def init(config, wapp):
 	log.debug(f"init {config.filename()}")
