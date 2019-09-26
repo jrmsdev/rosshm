@@ -47,6 +47,6 @@ class Plugin(object):
 			if self.debug:
 				bottle.response['X-Took'] = "%.7f" % (time() - start)
 
-			return callback(*args, **kwargs)
+			return resp
 
 		return wrapper
