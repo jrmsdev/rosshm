@@ -9,3 +9,5 @@ include dist.py
 recursive-include devel *.ini
 recursive-include devel *.sh
 recursive-include devel *.txt
+
+recursive-include rosshm/wapp *.ini

@@ -32,7 +32,6 @@ def main():
 	if args.group != '':
 		cmd += ('--set-ph', f"rosshm-group={args.group}")
 	cmd += ('--touch-reload', cfgfn)
-	cmd += ('--touch-reload', inifn)
 	cmd += ('--ini', inifn)
 	cmdenv = {'ROSSHM_CONFIG': cfgfn}
 	try:
