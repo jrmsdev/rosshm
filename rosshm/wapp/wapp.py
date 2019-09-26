@@ -36,11 +36,13 @@ def init():
 	log.debug('install plugins')
 	wapp.install(response.Plugin(debug = debug))
 
+	coreok = False
 	if config.getbool('core.enable'):
 		log.debug('core init')
-		core.init(config, wapp)
+		coreok = core.init(config, wapp)
 
-	if config.getbool('web.enable'):
+	log.debug(f"coreok {coreok}")
+	if coreok and config.getbool('web.enable'):
 		log.debug('web init')
 		web.init(config, wapp)
 
