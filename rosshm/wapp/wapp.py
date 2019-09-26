@@ -22,7 +22,10 @@ def init():
 		log.init(config.get('log.level'))
 	log.debug(f"rosshm version {version.get()}")
 
+	tpldir = path.abspath(libdir / 'web' / 'tpl')
+	log.debug(f"templates path {tpldir}")
 	bottle.TEMPLATE_PATH = []
+
 	wapp = bottle.Bottle()
 
 	for inifn in (path.abspath(libdir / 'wapp' / 'bottle.ini'), config.get('wapp.ini')):
