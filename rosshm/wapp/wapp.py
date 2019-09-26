@@ -16,6 +16,8 @@ def init():
 		log.init(config.get('log.level'))
 	log.debug(f"rosshm version {version.get()}")
 	wapp = Bottle()
+	log.debug('bottle config')
+	wapp.config.load_config(config.filename())
 	if config.getbool('core.enable'):
 		log.debug('core enable')
 	if config.getbool('web.enable'):

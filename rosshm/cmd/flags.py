@@ -20,6 +20,10 @@ def _new():
 		metavar = 'level', default = log.defaultLevel(), choices = log.levels())
 	p.add_argument('--config', help = 'default: ~/.config/rosshm.ini',
 		metavar = 'filename', default = '~/.config/rosshm.ini')
+	p.add_argument('--workers', help = 'default: number of CPU(s)',
+		metavar = 'number', default = '')
+	p.add_argument('--threads', help = 'default: number of CPU(s)',
+		metavar = 'number', default = '')
 	return p
 
 def parse():
