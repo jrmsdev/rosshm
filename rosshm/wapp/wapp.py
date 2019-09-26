@@ -8,6 +8,7 @@ from os import path
 from rosshm import config, log, version
 from rosshm.core import core
 from rosshm.libdir import libdir
+from rosshm.wapp.plugin import response
 from rosshm.web import web
 
 __all__ = ['init']
@@ -38,6 +39,9 @@ def init():
 	log.debug(f"dbfn {dbfn}")
 	dbplugin = sqlite.Plugin(dbfile = dbfn)
 	wapp.install(dbplugin)
+
+	log.debug('install plugins')
+	wapp.install(response.Plugin())
 
 	if config.getbool('core.enable'):
 		log.debug('core init')
