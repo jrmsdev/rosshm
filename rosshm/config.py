@@ -31,8 +31,9 @@ def init(fn = None):
 		fn = getenv('ROSSHM_CONFIG',
 			path.expanduser(path.join('~', '.config', 'rosshm.ini')))
 	fn = path.abspath(fn)
-	with open(fn, 'r') as fh:
-		_cfg.read_file(fh)
+	if path.isfile(fn):
+		with open(fn, 'r') as fh:
+			_cfg.read_file(fh)
 	_cfgfn = fn
 	if not _cfg.has_section('rosshm'):
 		_cfg.add_section('rosshm')

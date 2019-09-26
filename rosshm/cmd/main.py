@@ -64,11 +64,8 @@ def _uwsgi(args, cfgfn):
 
 def _debugMode(args, cfgfn):
 	app = wapp.init(cfgfn = cfgfn)
-	try:
-		app.run(host = '127.0.0.1', port = int(args.port), reloader = True, debug = True)
-	except KeyboardInterrupt:
-		return 128
-	return 0
+	return app.run(host = '127.0.0.1', port = int(args.port),
+		quiet = False, reloader = True, debug = True)
 
 if __name__ == '__main__':
 	sys.exit(main())
