@@ -16,14 +16,18 @@ def _new():
 		action = 'version', version = version.string())
 	p.add_argument('--debug', help = 'enable debug settings',
 		action = 'store_true', default = False)
-	p.add_argument('--log', help = "set log level (%s)" % log.defaultLevel(),
-		metavar = 'level', default = log.defaultLevel(), choices = log.levels())
-	p.add_argument('--config', help = 'default: ~/.config/rosshm.ini',
+	p.add_argument('--log', help = ', '.join(log.levels()), metavar = 'level',
+		default = log.defaultLevel(), choices = log.levels())
+	p.add_argument('--config', help = '~/.config/rosshm.ini',
 		metavar = 'filename', default = '~/.config/rosshm.ini')
-	p.add_argument('--workers', help = 'default: number of CPU(s)',
+	p.add_argument('--workers', help = 'number of CPU(s)',
 		metavar = 'number', default = '')
-	p.add_argument('--threads', help = 'default: number of CPU(s)',
+	p.add_argument('--threads', help = 'number of CPU(s)',
 		metavar = 'number', default = '')
+	p.add_argument('--user', help = '',
+		metavar = 'name', default = '')
+	p.add_argument('--group', help = '',
+		metavar = 'name', default = '')
 	return p
 
 def parse():

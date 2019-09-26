@@ -27,6 +27,10 @@ def main():
 		cmd += ('--set-ph', f"rosshm-workers={args.workers}")
 	if args.threads != '':
 		cmd += ('--set-ph', f"rosshm-threads={args.threads}")
+	if args.user != '':
+		cmd += ('--set-ph', f"rosshm-user={args.user}")
+	if args.group != '':
+		cmd += ('--set-ph', f"rosshm-group={args.group}")
 	cmd += ('--touch-reload', cfgfn)
 	cmd += ('--touch-reload', inifn)
 	cmd += ('--ini', inifn)
