@@ -12,12 +12,6 @@ from rosshm.wapp import wapp
 
 __all__ = ['main']
 
-def _gethome():
-	h = getenv('ROSSHM_HOME', None)
-	if h is None:
-		h = sys.exec_prefix
-	return path.abspath(h)
-
 def main():
 	args = flags.parse()
 	cfgfn = path.abspath(args.config)
@@ -26,6 +20,17 @@ def main():
 		return _debugMode(args, cfgfn)
 	else:
 		return _uwsgi(args, cfgfn)
+
+def _debugMode(args, cfgfn):
+	app = wapp.init(cfgfn = cfgfn)
+	return app.run(host = '127.0.0.1', port = int(args.port),
+		quiet = False, reloader = True, debug = True)
+
+def _gethome():
+	h = getenv('ROSSHM_HOME', None)
+	if h is None:
+		h = sys.exec_prefix
+	return path.abspath(h)
 
 def _uwsgi(args, cfgfn):
 	inifn = path.abspath(libdir / 'wapp' / 'uwsgi.ini')
@@ -61,11 +66,6 @@ def _uwsgi(args, cfgfn):
 		return 128
 
 	return 0
-
-def _debugMode(args, cfgfn):
-	app = wapp.init(cfgfn = cfgfn)
-	return app.run(host = '127.0.0.1', port = int(args.port),
-		quiet = False, reloader = True, debug = True)
 
 if __name__ == '__main__':
 	sys.exit(main())

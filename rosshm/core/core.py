@@ -17,7 +17,7 @@ def init(config, wapp):
 	log.debug(f"dbfn {dbfn}")
 
 	if checkdb(dbfn):
-		_views(config, wapp)
+		_views(config, wapp, dbfn)
 		return True
 	else:
 		_setup(config, wapp)
@@ -29,7 +29,7 @@ def _setup(config, wapp):
 	wapp.route('/_/setup', 'GET', setup.view, name = 'setup')
 	wapp.route('/<rpath:path>', 'GET', setup.redirect, name = 'setup.redirall')
 
-def _views(config, wapp):
+def _views(config, wapp, dbfn):
 	log.debug('views')
 	log.debug('sqlite plugin')
 	dbplugin = sqlite.Plugin(dbfile = dbfn)
