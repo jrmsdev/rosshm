@@ -2,6 +2,8 @@
 # See LICENSE file.
 
 import bottle
+from bottle.ext import sqlite
+from os import path
 
 from rosshm import config, log, version
 from rosshm.core import core
@@ -21,8 +23,15 @@ def init():
 
 	bottle.TEMPLATE_PATH = []
 	wapp = bottle.Bottle()
+
 	log.debug('bottle config')
 	wapp.config.load_config(config.filename())
+
+	log.debug('database plugin')
+	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
+	log.debug(f"dbfn {dbfn}")
+	dbplugin = sqlite.Plugin(dbfile = dbfn)
+	wapp.install(dbplugin)
 
 	if config.getbool('core.enable'):
 		log.debug('core init')

@@ -15,6 +15,7 @@ _cfg = ConfigParser(
 	interpolation = ExtendedInterpolation(),
 	defaults = {
 		'debug': False,
+		'datadir': path.expanduser(path.join('~', '.local', 'rosshm')),
 		'log.level': 'warn',
 		'core.enable': True,
 		'web.enable': True,
