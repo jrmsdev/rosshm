@@ -41,7 +41,7 @@ def init():
 	wapp.install(dbplugin)
 
 	log.debug('install plugins')
-	wapp.install(response.Plugin())
+	wapp.install(response.Plugin(debug = debug))
 
 	if config.getbool('core.enable'):
 		log.debug('core init')

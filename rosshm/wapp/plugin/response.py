@@ -3,6 +3,7 @@
 
 import bottle
 from datetime import datetime, timezone
+from time import time
 
 from rosshm import log
 
@@ -13,13 +14,23 @@ class Plugin(object):
 	name = 'rosshm.response'
 	api = 2
 
+	def __init__(self, debug = False):
+		self.debug = debug
+
 	def setup(self, wapp):
 		log.debug(f"setup {self.name}")
 
 	def apply(self, callback, ctx):
 		log.debug(f"apply {self.name}")
+
 		def wrapper(*args, **kwargs):
 			log.debug(f"apply wrapper {self.name}")
+
+			start = None
+			if self.debug:
+				start = time()
+
+			resp = callback(*args, **kwargs)
 			bottle.response['Server'] = 'rosshm'
 
 			csp = "object-src 'self';"
@@ -33,5 +44,9 @@ class Plugin(object):
 			expires = _birth
 			bottle.response['Expires'] = expires
 
+			if self.debug:
+				bottle.response['X-Took'] = "%.7f" % (time() - start)
+
 			return callback(*args, **kwargs)
+
 		return wrapper
