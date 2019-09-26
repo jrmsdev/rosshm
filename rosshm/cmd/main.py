@@ -3,11 +3,12 @@
 
 import sys
 import subprocess as proc
-from os import path, getenv
+from os import path, getenv, environ
 
 from rosshm import log
 from rosshm.cmd import flags
 from rosshm.libdir import libdir
+from rosshm.wapp import wapp
 
 __all__ = ['main']
 
@@ -20,6 +21,13 @@ def _gethome():
 def main():
 	args = flags.parse()
 	cfgfn = path.abspath(args.config)
+
+	if args.debug:
+		return _debugMode(args, cfgfn)
+	else:
+		return _uwsgi(args, cfgfn)
+
+def _uwsgi(args, cfgfn):
 	inifn = path.abspath(libdir / 'wapp' / 'uwsgi.ini')
 
 	cmd = ('uwsgi', '--need-plugin', 'python3')
@@ -52,6 +60,14 @@ def main():
 	except KeyboardInterrupt:
 		return 128
 
+	return 0
+
+def _debugMode(args, cfgfn):
+	app = wapp.init(cfgfn = cfgfn)
+	try:
+		app.run(host = '127.0.0.1', port = int(args.port), reloader = True, debug = True)
+	except KeyboardInterrupt:
+		return 128
 	return 0
 
 if __name__ == '__main__':

@@ -12,8 +12,8 @@ from rosshm.web import web
 
 __all__ = ['init']
 
-def init():
-	config.init()
+def init(cfgfn = None):
+	config.init(fn = cfgfn)
 
 	debug = config.getbool('debug')
 	if debug:
