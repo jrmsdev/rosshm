@@ -24,10 +24,12 @@ def _new():
 		metavar = 'number', default = '')
 	p.add_argument('--threads', help = 'number of CPU(s)',
 		metavar = 'number', default = '')
-	p.add_argument('--user', help = '',
+	p.add_argument('--user', help = 'current user',
 		metavar = 'name', default = '')
-	p.add_argument('--group', help = '',
+	p.add_argument('--group', help = 'current user group',
 		metavar = 'name', default = '')
+	p.add_argument('--port', help = '3721',
+		metavar = 'number', default = '3721')
 	return p
 
 def parse():
