@@ -3,6 +3,6 @@
 
 from rosshm import log
 
-def view():
+def view(db):
 	log.debug('view')
-	return {'status': 'OK'}
+	return {'status': 'ok'}
