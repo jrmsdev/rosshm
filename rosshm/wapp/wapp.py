@@ -4,6 +4,8 @@
 from bottle import Bottle
 
 from rosshm import config, log, version
+from rosshm.core import core
+from rosshm.web import web
 
 __all__ = ['init']
 
@@ -19,7 +21,9 @@ def init():
 	log.debug('bottle config')
 	wapp.config.load_config(config.filename())
 	if config.getbool('core.enable'):
-		log.debug('core enable')
+		log.debug('core init')
+		core.init(config)
 	if config.getbool('web.enable'):
-		log.debug('web enable')
+		log.debug('web init')
+		web.init(config)
 	return wapp
