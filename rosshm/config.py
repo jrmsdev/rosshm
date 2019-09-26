@@ -4,7 +4,7 @@
 from configparser import ConfigParser, ExtendedInterpolation
 from os import getenv, path
 
-__all__ = ['init']
+__all__ = ['init', 'get', 'getbool']
 
 _cfg = ConfigParser(
 	delimiters = ('=',),

@@ -2,7 +2,7 @@
 # See LICENSE file.
 
 import sys
-from os import path
+from os import path, getpid
 
 # colors
 
@@ -49,6 +49,7 @@ class _sysLogger(object):
 
 	def __init__(self, level, outs = None, flush = True):
 		self._depth = 3
+		self._pid = getpid()
 		self._outs = sys.stdout
 		self._errs = sys.stderr
 		self._flush = flush
@@ -108,19 +109,12 @@ class _sysLogger(object):
 		else:
 			raise RuntimeError("invalid log level: %s" % level)
 
-	def _off(self, msg, depth = None, tag = None):
+	def _off(self, msg):
 		pass
 
-	def _debug(self, msg, depth = None, tag = None):
-		if tag is None:
-			tag = ''
-		else:
-			tag = tag.strip()
-			tag += ' '
-		if depth is None:
-			depth = self._depth
-		caller = _getCaller(depth)
-		print(_colDebug("%s%s: %s" % (tag, caller, msg)),
+	def _debug(self, msg):
+		caller = _getCaller(self._depth)
+		print(_colDebug("[%d] %s: %s" % (self._pid, caller, msg)),
 			file = self._errs, flush = self._flush)
 
 	def _error(self, msg):
@@ -176,8 +170,8 @@ def curLevel():
 def debugEnabled():
 	return _curlevel == 'debug'
 
-def debug(msg, depth = None, tag = None):
-	_logger.debug(msg, depth = depth, tag = tag)
+def debug(msg):
+	_logger.debug(msg)
 
 def error(msg):
 	_logger.error(msg)
