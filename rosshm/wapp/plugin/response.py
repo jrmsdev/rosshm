@@ -2,7 +2,12 @@
 # See LICENSE file.
 
 import bottle
+from datetime import datetime, timezone
+
 from rosshm import log
+
+_birth = datetime(1980, 6, 21, 7, 30, tzinfo = timezone.utc)
+_birth = _birth.strftime("%a, %d %b %Y %H:%M:%S %Z")
 
 class Plugin(object):
 	name = 'rosshm.response'
@@ -16,9 +21,17 @@ class Plugin(object):
 		def wrapper(*args, **kwargs):
 			log.debug(f"apply wrapper {self.name}")
 			bottle.response['Server'] = 'rosshm'
+
 			csp = "object-src 'self';"
 			csp += " default-src 'self';"
 			csp += " script-src 'self';"
 			bottle.response['Content-Security-Policy'] = csp
+
+			cache = "no-cache; max-age=0"
+			bottle.response['Cache-Control'] = cache
+
+			expires = _birth
+			bottle.response['Expires'] = expires
+
 			return callback(*args, **kwargs)
 		return wrapper
