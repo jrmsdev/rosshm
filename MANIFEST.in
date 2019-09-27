@@ -10,6 +10,8 @@ recursive-include devel *.ini
 recursive-include devel *.sh
 recursive-include devel *.txt
 
+recursive-include rosshm/static *.css
+
 recursive-include rosshm/tpl *.html
 
 recursive-include rosshm/wapp *.ini
