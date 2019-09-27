@@ -1,14 +1,16 @@
 html {
-	background-color: #eee;
-	font-family: monospace;
+	color: #111;
+	background-color: #444;
+	font-family: sans;
 }
 body {
-	background-color: #fff;
-	border: 1px solid #ddd;
+	background-color: #ddd;
+	border: 1px solid #bbb;
 	padding: 15px; margin: 15px;
 }
 pre {
-	background-color: #eee;
-	border: 1px solid #ddd;
+	font-family: monospace;
+	background-color: #bbb;
+	border: 1px solid #aaa;
 	padding: 5px;
 }
