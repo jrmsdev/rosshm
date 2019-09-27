@@ -22,5 +22,6 @@ def checkdb(config):
 		return False
 	return _check(conn)
 
-def _check(db):
-	return False
+def _check(conn):
+	s = db.status(conn)
+	return s.get('status', 'none') == 'ok'
