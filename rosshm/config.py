@@ -18,6 +18,7 @@ _cfg = ConfigParser(
 		'datadir': path.expanduser(path.join('~', '.local', 'rosshm')),
 		'log.level': 'warn',
 		'core.enable': True,
+		'static.enable': True,
 		'web.enable': True,
 	},
 )

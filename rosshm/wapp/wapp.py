@@ -7,6 +7,7 @@ from os import path
 from rosshm import config, log, version
 from rosshm.core import core
 from rosshm.libdir import libdir
+from rosshm.static import static
 from rosshm.wapp.plugin import response
 from rosshm.web import web
 
@@ -34,6 +35,11 @@ def init(cfgfn = None):
 
 	log.debug('install plugins')
 	wapp.install(response.Plugin(debug = debug))
+
+	if config.getbool('static.enable'):
+		log.debug('serve static files')
+		wapp.route('/static/<filename:re:.*\..*>', 'GET', static.serve,
+			name = 'static', skip = ['rosshm.response'])
 
 	coreok = False
 	if config.getbool('core.enable'):
