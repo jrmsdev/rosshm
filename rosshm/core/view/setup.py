@@ -9,6 +9,7 @@ def redirect(rpath = ''):
 	log.debug('redir')
 	bottle.redirect('/_/setup')
 
+@bottle.view('core/setup/index.html')
 def view():
 	log.debug('view')
-	return 'ok'
+	return {}

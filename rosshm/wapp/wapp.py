@@ -22,11 +22,12 @@ def init(cfgfn = None):
 		log.init(config.get('log.level'))
 	log.debug(f"rosshm version {version.get()}")
 
-	tpldir = path.abspath(libdir / 'web' / 'tpl')
+	tpldir = path.abspath(libdir / 'tpl')
 	log.debug(f"templates path {tpldir}")
-	bottle.TEMPLATE_PATH = []
+	bottle.TEMPLATE_PATH = [tpldir]
 
 	wapp = bottle.Bottle()
+
 	inifn = path.abspath(libdir / 'wapp' / 'bottle.ini')
 	log.debug(f"bottle config {inifn}")
 	wapp.config.load_config(inifn)

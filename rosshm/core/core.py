@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from bottle.ext import sqlite
+
 from os import path
 
 from rosshm import log

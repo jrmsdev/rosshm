@@ -21,10 +21,10 @@ class Plugin(object):
 		log.debug(f"setup {self.name}")
 
 	def apply(self, callback, ctx):
-		log.debug(f"apply {self.name}")
+		log.debug(f"apply {ctx.name}")
 
 		def wrapper(*args, **kwargs):
-			log.debug(f"apply wrapper {self.name}")
+			log.debug(f"wrapper {ctx.name}")
 
 			start = None
 			if self.debug:
