@@ -4,6 +4,7 @@
 import bottle
 from os import path
 
+from rosshm import log
 from rosshm.libdir import libdir
 
 __all__ = ['serve']
@@ -20,4 +21,5 @@ def serve(filename):
 		return bottle.HTTPError(404, "file not found")
 	if ext == '' or not _serveExtension.get(ext, False):
 		return bottle.HTTPError(404, "file not found")
+	log.debug(f"serve {filename}")
 	return bottle.static_file(filename, root = _rootdir)

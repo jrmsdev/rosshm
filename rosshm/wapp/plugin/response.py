@@ -22,29 +22,32 @@ class Plugin(object):
 
 	def apply(self, callback, ctx):
 		log.debug(f"apply {ctx.name}")
-
 		def wrapper(*args, **kwargs):
 			log.debug(f"wrapper {ctx.name}")
-
 			start = None
 			if self.debug:
 				start = time()
-
 			resp = callback(*args, **kwargs)
-			bottle.response.set_header('Server', 'rosshm')
-
-			csp = "object-src 'self';"
-			csp += " default-src 'self';"
-			csp += " script-src 'self';"
-			bottle.response.set_header('Content-Security-Policy', csp)
-
-			cache = "no-cache; max-age=0"
-			bottle.response.set_header('Cache-Control', cache)
-			bottle.response.expires = _birth
-
-			if self.debug:
-				bottle.response.set_header('X-Took', "%.7f" % (time() - start))
-
+			if isinstance(resp, bottle.HTTPResponse):
+				self._setHeaders(resp, start)
+			else:
+				self._setHeaders(bottle.response, start)
 			return resp
-
 		return wrapper
+
+	def _setHeaders(self, resp, start):
+		# Server
+		resp.set_header('Server', 'rosshm')
+		# CSP
+		csp = "object-src 'self';"
+		csp += " default-src 'self';"
+		csp += " script-src 'self';"
+		resp.set_header('Content-Security-Policy', csp)
+		# Cache-Control
+		cache = "no-cache; max-age=0"
+		resp.set_header('Cache-Control', cache)
+		# Expires
+		resp.expires = _birth
+		# debug info
+		if self.debug:
+			resp.set_header('X-Took', "%.7f" % (time() - start))
