@@ -33,6 +33,7 @@ def _gethome():
 	return path.abspath(h)
 
 def _uwsgi(args, cfgfn):
+	rc = 0
 	inifn = path.abspath(libdir / 'wapp' / 'uwsgi.ini')
 
 	cmd = ('uwsgi', '--need-plugin', 'python3')
@@ -61,11 +62,12 @@ def _uwsgi(args, cfgfn):
 		proc.run(cmd, shell = False, env = cmdenv, check = True)
 	except proc.CalledProcessError as err:
 		log.error(f"{err}")
-		return err.returncode
+		rc = err.returncode
 	except KeyboardInterrupt:
-		return 128
+		rc = 128
 
-	return 0
+	log.debug(f"exit {rc}")
+	return rc
 
 if __name__ == '__main__':
 	sys.exit(main())
