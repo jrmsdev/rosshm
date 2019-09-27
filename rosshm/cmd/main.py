@@ -23,8 +23,10 @@ def main():
 
 def _debugMode(args, cfgfn):
 	app = wapp.init(cfgfn = cfgfn)
-	return app.run(host = '127.0.0.1', port = int(args.port),
-		quiet = False, reloader = True, debug = True)
+	app.run(host = '127.0.0.1', port = int(args.port), quiet = False,
+		reloader = True, debug = True)
+	log.debug('exit')
+	return 0
 
 def _gethome():
 	h = getenv('ROSSHM_HOME', None)
