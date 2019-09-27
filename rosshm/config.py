@@ -17,7 +17,6 @@ _cfg = ConfigParser(
 		'debug': False,
 		'datadir': path.expanduser(path.join('~', '.local', 'rosshm')),
 		'log.level': 'warn',
-		'wapp.ini': '',
 		'core.enable': True,
 		'web.enable': True,
 	},

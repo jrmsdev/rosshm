@@ -27,11 +27,9 @@ def init(cfgfn = None):
 	bottle.TEMPLATE_PATH = []
 
 	wapp = bottle.Bottle()
-
-	for inifn in (path.abspath(libdir / 'wapp' / 'bottle.ini'), config.get('wapp.ini')):
-		if inifn == '': continue
-		log.debug(f"bottle config {inifn}")
-		wapp.config.load_config(inifn)
+	inifn = path.abspath(libdir / 'wapp' / 'bottle.ini')
+	log.debug(f"bottle config {inifn}")
+	wapp.config.load_config(inifn)
 
 	log.debug('install plugins')
 	wapp.install(response.Plugin(debug = debug))

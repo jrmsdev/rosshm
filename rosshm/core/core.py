@@ -12,12 +12,8 @@ __all__ = ['init']
 
 def init(config, wapp):
 	log.debug(f"init {config.filename()}")
-
-	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
-	log.debug(f"dbfn {dbfn}")
-
-	if checkdb(dbfn):
-		_views(config, wapp, dbfn)
+	if checkdb(config):
+		_views(config, wapp)
 		return True
 	else:
 		_setup(config, wapp)
@@ -29,9 +25,10 @@ def _setup(config, wapp):
 	wapp.route('/_/setup', 'GET', setup.view, name = 'setup')
 	wapp.route('/<rpath:path>', 'GET', setup.redirect, name = 'setup.redirall')
 
-def _views(config, wapp, dbfn):
+def _views(config, wapp):
 	log.debug('views')
 	log.debug('sqlite plugin')
+	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
 	dbplugin = sqlite.Plugin(dbfile = dbfn)
 	wapp.route('/_/', 'GET', status.view, name = 'core.status',
 		apply = [dbplugin])

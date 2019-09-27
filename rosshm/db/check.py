@@ -6,10 +6,14 @@ from os import path, makedirs
 from rosshm import log
 from rosshm.db import db
 
-def checkdb(fn):
-	log.debug(f"checkdb {fn}")
-	if not path.isfile(fn):
-		makedirs(path.dirname(fn), mode = 0o750, exist_ok = True)
-	if not db.check(fn):
+__all__ = ['checkdb']
+
+def checkdb(config):
+	log.debug('checkdb')
+	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
+	log.debug(f"dbfn {dbfn}")
+	if not path.isfile(dbfn):
+		makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)
+	if not db.check(dbfn):
 		return False
 	return True
