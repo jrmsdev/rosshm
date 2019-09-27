@@ -31,21 +31,21 @@ class Plugin(object):
 				start = time()
 
 			resp = callback(*args, **kwargs)
-			bottle.response['Server'] = 'rosshm'
+			bottle.response.set_header('Server', 'rosshm')
 
 			csp = "object-src 'self';"
 			csp += " default-src 'self';"
 			csp += " script-src 'self';"
-			bottle.response['Content-Security-Policy'] = csp
+			bottle.response.set_header('Content-Security-Policy', csp)
 
 			cache = "no-cache; max-age=0"
-			bottle.response['Cache-Control'] = cache
+			bottle.response.set_header('Cache-Control', cache)
 
 			expires = _birth
-			bottle.response['Expires'] = expires
+			bottle.response.set_header('Expires', expires)
 
 			if self.debug:
-				bottle.response['X-Took'] = "%.7f" % (time() - start)
+				bottle.response.set_header('X-Took', "%.7f" % (time() - start))
 
 			return resp
 
