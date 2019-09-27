@@ -3,7 +3,5 @@
 
 import sqlite3
 
-def check(fn):
-	conn = sqlite3.connect(fn)
-	conn.close()
-	return False
+def connect(fn):
+	return sqlite3.connect(fn)

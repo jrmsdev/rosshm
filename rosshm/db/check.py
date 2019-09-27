@@ -14,6 +14,13 @@ def checkdb(config):
 	log.debug(f"dbfn {dbfn}")
 	if not path.isfile(dbfn):
 		makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)
-	if not db.check(dbfn):
+	try:
+		conn = db.connect(dbfn)
+		conn.close()
+	except Exception as err:
+		log.error(str(err))
 		return False
-	return True
+	return _check(conn)
+
+def _check(db):
+	return False

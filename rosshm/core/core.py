@@ -21,13 +21,13 @@ def init(config, wapp):
 		return False
 
 def _setup(config, wapp):
-	log.debug('setup')
+	log.debug('init setup')
 	wapp.route('/', 'GET', setup.redirect, name = 'setup.redir')
 	wapp.route('/_/setup', 'GET', setup.view, name = 'setup')
 	wapp.route('/<rpath:path>', 'GET', setup.redirect, name = 'setup.redirall')
 
 def _views(config, wapp):
-	log.debug('views')
+	log.debug('init views')
 	log.debug('sqlite plugin')
 	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
 	dbplugin = sqlite.Plugin(dbfile = dbfn)
