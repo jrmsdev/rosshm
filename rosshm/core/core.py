@@ -23,7 +23,8 @@ def init(config, wapp):
 def _setup(config, wapp):
 	log.debug('init setup')
 	wapp.route('/', 'GET', setup.redirect, name = 'setup.redir')
-	wapp.route('/_/setup', 'GET', setup.view, name = 'setup')
+	wapp.route('/_/setup', 'GET', setup.index, name = 'setup')
+	wapp.route('/_/setup/db/create', 'GET', setup.dbCreate, name = 'db.create')
 	wapp.route('/<rpath:path>', 'GET', setup.redirect, name = 'setup.redirall')
 
 def _views(config, wapp):

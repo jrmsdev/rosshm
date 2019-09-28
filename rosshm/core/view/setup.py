@@ -11,9 +11,7 @@ def redirect(rpath = ''):
 	log.debug('redir')
 	bottle.redirect('/_/setup')
 
-@bottle.view('core/setup/index.html')
-def view():
-	log.debug('view')
+def _dbstatus():
 	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
 	log.debug(f"dbfn {dbfn}")
 	status = {}
@@ -26,3 +24,17 @@ def view():
 		log.error(f"check database: {err}")
 		error = str(err)
 	return {'error': error, 'status': status}
+
+@bottle.view('core/setup/index.html')
+def index():
+	log.debug('view')
+	return _dbstatus()
+
+@bottle.view('core/setup/db/create.html')
+def dbCreate():
+	log.debug('db create')
+	dbstat = _dbstatus()
+	if dbstat['error'] is None:
+		# database is ok?
+		return {'error': 'database already created?'}
+	return {}
