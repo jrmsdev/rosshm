@@ -1,2 +1,7 @@
 % rebase('core/base.html', title = 'setup')
 <h1>setup</h1>
+<pre>Error: {{error}}
+Status: {{status}}</pre>
+% if not status:
+<a href="/_/setup/db/create">create database</a>
+% end
