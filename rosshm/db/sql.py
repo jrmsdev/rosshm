@@ -11,7 +11,7 @@ from rosshm import log
 def createTable(name, fields):
 	s = "CREATE TABLE rosshm_%s" % name
 	fl = deque()
-	fl.append('pk INT PRIMARY KEY AUTOINCREMENT')
+	fl.append('pk INTEGER PRIMARY KEY AUTOINCREMENT')
 	for f, d in fields.items():
 		typ = d[0]
 		args = d[1]

@@ -28,6 +28,7 @@ class DBTable(object):
 
 	def create(self, db):
 		stmt = sql.createTable(self.obj.table, self.obj.fields)
+		db.execute(stmt)
 
 #
 # db manager
