@@ -17,7 +17,7 @@ def checkdb(config):
 	try:
 		conn = db.connect(dbfn)
 		_check(conn)
-	except Exception as err:
+	except db.Error as err:
 		log.error(f"check database: {err}")
 		return False
 	return True

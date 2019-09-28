@@ -5,7 +5,9 @@ import sqlite3
 
 from rosshm.db.obj.status import DBStatus
 
-__all__ = ['connect', 'status']
+__all__ = ['Error', 'connect', 'status']
+
+Error = sqlite3.OperationalError
 
 def connect(fn):
 	conn = sqlite3.connect(fn)

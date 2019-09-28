@@ -4,6 +4,7 @@
 import bottle
 
 from rosshm import log
+from rosshm.db import db
 
 def redirect(rpath = ''):
 	log.debug('redir')
@@ -12,4 +13,11 @@ def redirect(rpath = ''):
 @bottle.view('core/setup/index.html')
 def view():
 	log.debug('view')
-	return {}
+	try:
+		conn = db.connect(dbfn)
+		status = db.status(conn)
+		conn.close()
+	except db.Error as err:
+		log.error(f"check database: {err}")
+		status = {'error': str(err)}
+	return {'status': status}
