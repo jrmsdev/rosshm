@@ -2,7 +2,9 @@
 # See LICENSE file.
 
 from rosshm import log
+from rosshm.db.obj.status import DBStatus
 
 def view(db):
 	log.debug('view')
-	return {'status': 'ok'}
+	s = DBStatus()
+	return s.get(db, {'pk': 0}, ('status',))

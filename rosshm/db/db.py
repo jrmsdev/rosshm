@@ -22,4 +22,7 @@ def status(db):
 def create(db):
 	for tbl in DB.tables:
 		tbl.create(db)
+	s = DBStatus()
+	s.set(db, pk = 0, status = 'ok')
+	db.commit()
 	return {}

@@ -33,6 +33,23 @@ def _mkStr(args):
 	return 'TEXT'
 
 #
+# INSERT
+#
+def insert(table, fields, data):
+	fields = tuple(fields)
+	fl = deque()
+	vl = deque()
+	for k, v in data.items():
+		if k == 'pk' or k in fields:
+			fl.append(k)
+			vl.append(v)
+	s = "INSERT INTO rosshm_%s" % table
+	s += " (%s)" % ', '.join(fl)
+	s += " VALUES (%s);" % ', '.join(['?' for x in vl])
+	log.debug(s)
+	return (s, vl)
+
+#
 # SELECT
 #
 def select(table, fields, where, filter):
@@ -47,7 +64,7 @@ def select(table, fields, where, filter):
 		select = "(%s)" % ', '.join(names)
 	s = "SELECT %s FROM rosshm_%s" % (select, table)
 	for k, v in where.items():
-		if k in fields:
+		if k == 'pk' or k in fields:
 			s += " WHERE %s=?" % k
 			args += (v,)
 	s += ";"

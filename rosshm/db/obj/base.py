@@ -14,9 +14,14 @@ class DBObject(object):
 	table = None
 	fields = {}
 
+	def set(self, db, **data):
+		stmt, args = sql.insert(self.table, self.fields.keys(), data)
+		db.execute(stmt, args)
+
 	def get(self, db, where, filter):
 		stmt, args = sql.select(self.table, self.fields.keys(), where, filter)
-		return db.execute(stmt, args).fetchone()
+		row = db.execute(stmt, args).fetchone()
+		return dict(row)
 
 #
 # table manager
