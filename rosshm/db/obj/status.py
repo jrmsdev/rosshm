@@ -1,11 +1,12 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from rosshm.db.obj.base import DBObject
+from rosshm.db.obj import base
 
-class DBStatus(DBObject):
+class DBStatus(base.DBObject):
 	table = 'status'
 	fields = {
-		'pk': (int, {}),
 		'status': (str, {'size': 64}),
 	}
+
+base.register(DBStatus())

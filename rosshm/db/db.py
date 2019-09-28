@@ -3,6 +3,7 @@
 
 import sqlite3
 
+from rosshm.db.obj.base import DB
 from rosshm.db.obj.status import DBStatus
 
 __all__ = ['Error', 'connect', 'status']
@@ -17,3 +18,8 @@ def connect(fn):
 def status(db):
 	s = DBStatus()
 	return s.get(db, {'pk': 0}, ('status',))
+
+def create(db):
+	for tbl in DB.tables:
+		tbl.create(db)
+	return {}
