@@ -16,12 +16,14 @@ def checkdb(config):
 		makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)
 	try:
 		conn = db.connect(dbfn)
-		conn.close()
+		_check(conn)
 	except Exception as err:
-		log.error(str(err))
+		log.error(f"check database: {err}")
 		return False
-	return _check(conn)
+	return True
 
 def _check(conn):
+	log.debug('db status')
 	s = db.status(conn)
+	conn.close()
 	return s.get('status', 'none') == 'ok'
