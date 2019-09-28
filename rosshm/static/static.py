@@ -19,6 +19,7 @@ def serve(filename):
 	ext = path.splitext(filename)[1]
 	if ext == '' or filename.startswith('.') or \
 		not _serveExtension.get(ext, False):
+		log.warn(f"static file refuse '{filename}'")
 		return bottle.HTTPError(404, "file not found")
 	log.debug(f"serve {filename}")
 	return bottle.static_file(filename, root = _rootdir)
