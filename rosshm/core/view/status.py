@@ -7,4 +7,4 @@ from rosshm.db.obj.status import DBStatus
 def view(db):
 	log.debug('view')
 	s = DBStatus()
-	return s.get(db, {'pk': 0}, ('status',))
+	return s.get(db, 'status', pk = 0)

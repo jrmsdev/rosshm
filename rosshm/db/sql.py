@@ -52,12 +52,15 @@ def insert(table, fields, data):
 #
 # SELECT
 #
-def select(table, fields, where, filter):
+def select(table, fields, filter, where):
 	fields = tuple(fields)
 	args = tuple()
 	select = '*'
-	if len(filter) > 0:
-		names = []
+	flen = len(filter)
+	if flen == 1:
+		select = filter[0]
+	elif flen > 1:
+		names = deque()
 		for n in filter:
 			if n in fields:
 				names.append(n)

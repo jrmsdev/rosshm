@@ -15,14 +15,14 @@ def connect(fn):
 	conn.row_factory = sqlite3.Row
 	return conn
 
-def status(db):
+def status(conn):
 	s = DBStatus()
-	return s.get(db, {'pk': 0}, ('status',))
+	return s.get(conn, 'status', pk = 0)
 
-def create(db):
+def create(conn):
 	for tbl in DB.tables:
-		tbl.create(db)
+		tbl.create(conn)
 	s = DBStatus()
-	s.set(db, pk = 0, status = 'ok')
-	db.commit()
+	s.set(conn, pk = 0, status = 'ok')
+	conn.commit()
 	return {}

@@ -18,8 +18,8 @@ class DBObject(object):
 		stmt, args = sql.insert(self.table, self.fields.keys(), data)
 		db.execute(stmt, args)
 
-	def get(self, db, where, filter):
-		stmt, args = sql.select(self.table, self.fields.keys(), where, filter)
+	def get(self, db, *filter, **where):
+		stmt, args = sql.select(self.table, self.fields.keys(), filter, where)
 		row = db.execute(stmt, args).fetchone()
 		return dict(row)
 
