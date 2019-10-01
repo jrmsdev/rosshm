@@ -1,9 +1,9 @@
 % rebase('core/base.html', title = 'create database')
 <h1>create database</h1>
+<p>{{db}}</p>
 % if defined('error'):
 <pre>{{error}}</pre>
 % else:
-<p>{{db}}</p>
 <form action="/_/setup/db/create" method="POST">
 	<input type="submit" value="create">
 </form>

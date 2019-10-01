@@ -55,7 +55,7 @@ def dbCreate():
 	dbstat = _dbstatus()
 	if dbstat['error'] is None:
 		# database is ok?
-		return {'error': 'database already created?'}
+		return {'error': 'database already created?', 'db': config.database()}
 	rv = {}
 	req = bottle.request
 	if req.method == 'POST':
