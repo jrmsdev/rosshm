@@ -1,0 +1,5 @@
+[run]
+source = rosshm
+omit =
+	rosshm/_version.py
+	rosshm/_version_build.py

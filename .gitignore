@@ -1,8 +1,10 @@
 .*.swp
+.coverage
 __pycache__
 /.eggs
 /build
 /dist
+/htmlcov
 /pip-wheel-metadata
 rosshm.egg-info
 rosshm/_version.py
