@@ -1,20 +1,23 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from bottle.ext import sqlite
-
 from os import path
 
 from rosshm import log
 from rosshm.core.view import setup, status
 from rosshm.db.check import checkdb
+from rosshm.wapp.plugin.db import DBPlugin
 
 __all__ = ['init']
 
 def init(config, wapp):
 	log.debug(f"init {config.filename()}")
+	debug = config.getbool('debug')
 	if checkdb(config):
-		_views(config, wapp)
+		log.debug('sqlite plugin')
+		dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
+		plugins = [DBPlugin(dbfn, debug = debug)]
+		_views(config, wapp, plugins)
 		return True
 	else:
 		_setup(config, wapp)
@@ -28,10 +31,7 @@ def _setup(config, wapp):
 		setup.dbCreate, name = 'db.create')
 	wapp.route('/<rpath:path>', 'GET', setup.redirect, name = 'setup.redirall')
 
-def _views(config, wapp):
+def _views(config, wapp, plugins):
 	log.debug('init views')
-	log.debug('sqlite plugin')
-	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
-	dbplugin = sqlite.Plugin(dbfile = dbfn)
 	wapp.route('/_/', 'GET', status.view, name = 'core.status',
-		apply = [dbplugin])
+		apply = plugins)

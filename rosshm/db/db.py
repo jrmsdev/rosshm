@@ -14,6 +14,7 @@ __all__ = ['Error', 'connect', 'status', 'create']
 import rosshm.db.load
 
 Error = sqlite3.OperationalError
+IntegrityError = sqlite3.IntegrityError
 
 def connect(fn):
 	conn = sqlite3.connect(fn)
