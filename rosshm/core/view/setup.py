@@ -64,6 +64,7 @@ def dbCreate():
 			conn = _dbconn()
 			rv = db.create(conn)
 			conn.close()
+			bottle.redirect('/_/setup')
 		except db.Error as err:
 			log.error(f"create database: {err}")
 			rv['error'] = str(err)
