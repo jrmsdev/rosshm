@@ -10,18 +10,19 @@ class DBPlugin(object):
 	name = 'rosshm.db'
 	api = 2
 
-	def __init__(self, dbfn, debug = False):
-		self.dbfn = dbfn
+	def __init__(self, cfg, debug = False):
+		self.cfg = cfg
 		self.debug = debug
 
 	def setup(self, wapp):
+		# the plugin is not installed globally so this should never run
 		log.debug(f"setup {self.name}")
 
 	def apply(self, callback, ctx):
 		log.debug(f"apply {ctx.name}")
 		def wrapper(*args, **kwargs):
 			log.debug(f"wrapper {ctx.name}")
-			conn = db.connect(self.dbfn)
+			conn = db.connect(self.cfg)
 			kwargs['db'] = conn
 			try:
 				resp = callback(*args, **kwargs)

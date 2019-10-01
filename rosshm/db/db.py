@@ -16,7 +16,8 @@ import rosshm.db.load
 Error = sqlite3.OperationalError
 IntegrityError = sqlite3.IntegrityError
 
-def connect(fn):
+def connect(cfg):
+	fn = cfg.get('name')
 	conn = sqlite3.connect(fn)
 	conn.row_factory = sqlite3.Row
 	return conn

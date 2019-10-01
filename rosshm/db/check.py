@@ -10,13 +10,15 @@ __all__ = ['checkdb']
 
 def checkdb(config):
 	log.debug('checkdb')
-	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
-	log.debug(f"dbfn {dbfn}")
-	if not path.isfile(dbfn):
-		makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)
+	dbcfg = config.database()
+	log.debug(f"dbcfg {dbcfg}")
+	if dbcfg.get('driver') == 'sqlite':
+		dbfn = dbcfg.get('name')
+		if not path.isfile(dbfn):
+			makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)
 	rv = True
 	try:
-		conn = db.connect(dbfn)
+		conn = db.connect(dbcfg)
 		rv = _check(conn)
 	except db.Error as err:
 		log.error(f"check database: {err}")

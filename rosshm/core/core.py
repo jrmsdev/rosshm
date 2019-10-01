@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from os import path
-
 from rosshm import log
 from rosshm.core.view import setup, status
 from rosshm.db.check import checkdb
@@ -14,9 +12,9 @@ def init(config, wapp):
 	log.debug(f"init {config.filename()}")
 	debug = config.getbool('debug')
 	if checkdb(config):
-		log.debug('sqlite plugin')
-		dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
-		plugins = [DBPlugin(dbfn, debug = debug)]
+		dbcfg = config.database()
+		log.debug(f"db plugin {dbcfg}")
+		plugins = [DBPlugin(dbcfg, debug = debug)]
 		_views(config, wapp, plugins)
 		return True
 	else:

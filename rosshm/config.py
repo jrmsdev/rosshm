@@ -18,6 +18,9 @@ _cfg = ConfigParser(
 		'datadir': path.expanduser(path.join('~', '.local', 'rosshm')),
 		'log.level': 'warn',
 		'core.enable': True,
+		'db.driver': 'sqlite',
+		'db.name': 'rosshmdb',
+		'db.config': '',
 		'static.enable': True,
 		'web.enable': True,
 	},
@@ -43,6 +46,20 @@ def filename():
 	if _cfgfn is None:
 		raise RuntimeError('config filename not set')
 	return _cfgfn
+
+def database():
+	drv = get('db.driver')
+	name = get('db.name')
+	if drv == 'sqlite':
+		name = path.abspath(path.join(get('datadir'), name, drv))
+	cfg = get('db.config')
+	if cfg != '':
+		path.abspath(path.expanduser(cfg))
+	return {
+		'driver': drv,
+		'name': name,
+		'config': cfg,
+	}
 
 def get(option, **kwargs):
 	return _cfg.get('rosshm', option, **kwargs)

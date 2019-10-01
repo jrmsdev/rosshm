@@ -18,9 +18,9 @@ def redirect(rpath = ''):
 # get database connection
 #
 def _dbconn():
-	dbfn = path.abspath(path.join(config.get('datadir'), 'rosshm.db'))
-	log.debug(f"dbfn {dbfn}")
-	return db.connect(dbfn)
+	dbcfg = config.database()
+	log.debug(f"dbcfg {dbcfg}")
+	return db.connect(dbcfg)
 
 #
 # get database status table info
