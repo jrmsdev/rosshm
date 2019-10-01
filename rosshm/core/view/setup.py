@@ -36,7 +36,7 @@ def _dbstatus():
 	except db.Error as err:
 		log.error(f"check database: {err}")
 		error = str(err)
-	return {'error': error, 'status': status}
+	return {'error': error, 'status': status, 'db': config.database()}
 
 #
 # index view
@@ -66,5 +66,6 @@ def dbCreate():
 			conn.close()
 		except db.Error as err:
 			log.error(f"create database: {err}")
-			rv = {'error': str(err)}
+			rv['error'] = str(err)
+	rv['db'] = config.database()
 	return rv

@@ -51,7 +51,7 @@ def database():
 	drv = get('db.driver')
 	name = get('db.name')
 	if drv == 'sqlite':
-		name = path.abspath(path.join(get('datadir'), name, drv))
+		name = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
 	cfg = get('db.config')
 	if cfg != '':
 		path.abspath(path.expanduser(cfg))
