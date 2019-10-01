@@ -20,7 +20,7 @@ def status(conn):
 	return s.get(conn, 'status', pk = 0)
 
 def create(conn):
-	for tbl in DB.tables:
+	for tbl in DB.tables.values():
 		tbl.create(conn)
 	s = DBStatus()
 	s.set(conn, pk = 0, status = 'ok')
