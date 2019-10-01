@@ -3,8 +3,8 @@
 
 import sqlite3
 
-from rosshm.db.obj.base import DB
 from rosshm.db.obj.status import DBStatus
+from rosshm.db.reg import DB
 
 __all__ = ['Error', 'connect', 'status']
 
