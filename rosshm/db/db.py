@@ -3,10 +3,15 @@
 
 import sqlite3
 
-from rosshm.db.obj.status import DBStatus
+from rosshm.db.schema.status import DBStatus
 from rosshm.db.reg import DB
 
-__all__ = ['Error', 'connect', 'status']
+__all__ = ['Error', 'connect', 'status', 'create']
+
+#
+# load/register db schema objects
+#
+import rosshm.db.load
 
 Error = sqlite3.OperationalError
 
