@@ -33,4 +33,6 @@ class DBObject(object):
 	def get(self, db, *filter, **where):
 		stmt, args = sql.select(self.table, self.fields.keys(), filter, where)
 		row = db.execute(stmt, args).fetchone()
+		if row is None:
+			return {}
 		return dict(row)

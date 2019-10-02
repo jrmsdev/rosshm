@@ -68,5 +68,10 @@ def dbCreate():
 		except db.Error as err:
 			log.error(f"create database: {err}")
 			rv['error'] = str(err)
+		except db.IntegrityError as err:
+			log.error(f"create database: {err}")
+			rv['error'] = str(err)
+			log.debug('rollback')
+			conn.rollback()
 	rv['db'] = config.database()
 	return rv
