@@ -2,5 +2,5 @@
 # See LICENSE file.
 
 def test_config(testing_config):
-	cfg = testing_config()
-	assert cfg is None
+	with testing_config():
+		pass
