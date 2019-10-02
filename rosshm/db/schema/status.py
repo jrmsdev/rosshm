@@ -6,8 +6,10 @@ from rosshm.db.reg import register
 
 class DBStatus(DBObject):
 	table = 'status'
-	fields = {
-		'status': (str, {'size': 64}),
+	schema = {
+		0: {
+			'status': (str, {'size': 64}),
+		},
 	}
 
 register(DBStatus())
