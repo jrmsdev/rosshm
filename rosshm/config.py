@@ -26,13 +26,11 @@ _cfg = ConfigParser(
 	},
 )
 
-_cfgfn = None
+_cfgfn = getenv('ROSSHM_CONFIG',
+	path.expanduser(path.join('~', '.config', 'rosshm.ini')))
 
-def init(fn = None):
+def init(fn = _cfgfn):
 	global _cfgfn
-	if fn is None:
-		fn = getenv('ROSSHM_CONFIG',
-			path.expanduser(path.join('~', '.config', 'rosshm.ini')))
 	fn = path.abspath(fn)
 	if path.isfile(fn):
 		with open(fn, 'r') as fh:
@@ -43,8 +41,6 @@ def init(fn = None):
 
 def filename():
 	global _cfgfn
-	if _cfgfn is None:
-		raise RuntimeError('config filename not set')
 	return _cfgfn
 
 def database():
@@ -54,7 +50,7 @@ def database():
 		name = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
 	cfg = get('db.config')
 	if cfg != '':
-		path.abspath(path.expanduser(cfg))
+		cfg = path.abspath(path.expanduser(cfg))
 	return {
 		'driver': drv,
 		'name': name,
