@@ -24,6 +24,10 @@ def _mkfield(name, typ, args):
 	f = name
 	if typ is str:
 		f += " %s" % _mkStr(args)
+	elif typ is int:
+		f += " INT"
+	if not args.get('null', False):
+		f += " NOT NULL"
 	return f
 
 def _mkStr(args):
