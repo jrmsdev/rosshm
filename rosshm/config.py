@@ -26,8 +26,9 @@ _cfg = ConfigParser(
 	},
 )
 
-_cfgfn = getenv('ROSSHM_CONFIG',
-	path.expanduser(path.join('~', '.config', 'rosshm.ini')))
+_cfgfn = getenv('ROSSHM_CONFIG', '')
+if _cfgfn == '':
+	_cfgfn = path.expanduser(path.join('~', '.config', 'rosshm.ini'))
 
 def init(fn = _cfgfn):
 	global _cfgfn

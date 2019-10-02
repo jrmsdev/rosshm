@@ -28,7 +28,7 @@ def _setColored():
 	global _colError
 	global _colInfo
 	global _colMsg
-	if _colored: # pragma: no cover
+	if _colored:
 		_colDebug = lambda msg: _grey + msg + _reset
 		_colError = lambda msg: _red + msg + _reset
 		_colWarn = lambda msg: _yellow + msg + _reset
