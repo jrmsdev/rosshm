@@ -3,11 +3,9 @@
 
 import sqlite3
 
-# register schema objects first
-import rosshm.db.load
-
 from rosshm import log
 from rosshm.db import reg
+from rosshm.db.schema.schema import DBSchema
 from rosshm.db.schema.status import DBStatus
 
 __all__ = ['Error', 'connect', 'status', 'create']
@@ -26,15 +24,18 @@ def status(conn):
 	return s.get(conn, 'status', pk = 0)
 
 def create(conn):
-	# init schema tracking table
+	meta = DBSchema()
+	# init schema tracking table first
 	log.debug(f"create tables {list(reg.DB.tables.keys())}")
-	tbl = reg.DB.tables.get('schema')
+	tbl = reg.DB.tables.get(meta.table)
 	assert tbl
 	tbl.create(conn)
 	# init the rest of them
 	for tbl in reg.DB.tables.values():
-		if tbl.name == 'schema': continue
-		tbl.create(conn)
+		if tbl.name != meta.table:
+			tbl.create(conn)
+		# save schema metadata
+		meta.set(conn, object = tbl.name, version = tbl.version)
 	# set db status
 	s = DBStatus()
 	s.set(conn, pk = 0, status = 'ok')
