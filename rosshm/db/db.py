@@ -3,15 +3,14 @@
 
 import sqlite3
 
+# register schema objects first
+import rosshm.db.load
+
+from rosshm import log
+from rosshm.db import reg
 from rosshm.db.schema.status import DBStatus
-from rosshm.db.reg import DB
 
 __all__ = ['Error', 'connect', 'status', 'create']
-
-#
-# load/register db schema objects
-#
-import rosshm.db.load
 
 Error = sqlite3.OperationalError
 IntegrityError = sqlite3.IntegrityError
@@ -27,8 +26,16 @@ def status(conn):
 	return s.get(conn, 'status', pk = 0)
 
 def create(conn):
-	for tbl in DB.tables.values():
+	# init schema tracking table
+	log.debug(f"create tables {list(reg.DB.tables.keys())}")
+	tbl = reg.DB.tables.get('schema')
+	assert tbl
+	tbl.create(conn)
+	# init the rest of them
+	for tbl in reg.DB.tables.values():
+		if tbl.name == 'schema': continue
 		tbl.create(conn)
+	# set db status
 	s = DBStatus()
 	s.set(conn, pk = 0, status = 'ok')
 	conn.commit()

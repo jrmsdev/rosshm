@@ -1,6 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
+from rosshm import log
 from rosshm.db import sql
 
 __all__ = ['DBTable']
@@ -11,9 +12,11 @@ __all__ = ['DBTable']
 class DBTable(object):
 
 	def __init__(self, obj):
-		self.obj = obj
+		self.name = obj.table
+		self.fields = obj.fields
 
 	def create(self, db):
-		stmt = sql.createTable(self.obj.table, self.obj.fields)
+		log.debug(f"create {self.name}")
+		stmt = sql.createTable(self.name, self.fields)
 		db.execute(stmt)
 		db.commit()
