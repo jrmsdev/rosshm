@@ -35,4 +35,4 @@ class DBObject(object):
 		row = db.execute(stmt, args).fetchone()
 		if row is None:
 			return {}
-		return dict(row)
+		return row

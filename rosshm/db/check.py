@@ -31,4 +31,4 @@ def _check(conn):
 	conn.close()
 	if not s:
 		return False
-	return s.get('status', 'none') == 'ok'
+	return s['status'] == 'ok'

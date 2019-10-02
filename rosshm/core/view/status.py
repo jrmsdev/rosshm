@@ -7,4 +7,7 @@ from rosshm.db.schema.status import DBStatus
 def view(db):
 	log.debug('view')
 	s = DBStatus()
-	return s.get(db, 'status', pk = 0)
+	row = s.get(db, 'status', pk = 0)
+	if row is None:
+		return {}
+	return dict(row)

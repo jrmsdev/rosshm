@@ -31,7 +31,7 @@ def _dbstatus():
 	error = None
 	try:
 		conn = _dbconn()
-		status = db.status(conn)
+		status = dict(db.status(conn))
 		conn.close()
 	except db.Error as err:
 		log.error(f"check database: {err}")
