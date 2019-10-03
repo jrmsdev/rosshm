@@ -16,8 +16,7 @@ class DBObject(object):
 		self.fields = {}
 		self.version = 0
 		for v in sorted(self.schema.keys()):
-			if v > self.version:
-				self.version = v
+			self.version = v
 			d = self.schema.get(v)
 			self._loadFields(d)
 

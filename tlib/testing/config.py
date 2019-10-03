@@ -11,7 +11,6 @@ __all__ = ['testing_config', 'config_ctx']
 
 @contextmanager
 def config_ctx(fn = 'rosshm.ini', init = True):
-	cfg = config._cfg
 	try:
 		fn = str(tdata / fn)
 		if init:
@@ -23,7 +22,7 @@ def config_ctx(fn = 'rosshm.ini', init = True):
 		yield config._cfg
 	finally:
 		del config._cfg
-		config._cfg = cfg
+		config._cfg = config._new()
 		del config._cfgfn
 		config._cfgfn = None
 

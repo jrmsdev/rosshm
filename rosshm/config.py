@@ -6,7 +6,8 @@ from os import getenv, path
 
 __all__ = ['init', 'filename', 'get', 'getbool']
 
-_cfg = ConfigParser(
+def _new():
+	return ConfigParser(
 	delimiters = ('=',),
 	comment_prefixes = ('#', ';'),
 	default_section = 'default',
@@ -25,6 +26,7 @@ _cfg = ConfigParser(
 		'web.enable': True,
 	},
 )
+_cfg = _new()
 
 _cfgfn = getenv('ROSSHM_CONFIG', '')
 if _cfgfn == '':
@@ -50,7 +52,8 @@ def database():
 	drv = get('db.driver')
 	name = get('db.name')
 	if drv == 'sqlite':
-		name = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
+		if name != ':memory:':
+			name = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
 	cfg = get('db.config')
 	if cfg != '':
 		cfg = path.abspath(path.expanduser(cfg))

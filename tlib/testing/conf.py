@@ -18,7 +18,9 @@ for k, v in _osenv.items():
 __all__ = [
 	'testing_cmd',
 	'testing_config',
+	'testing_db',
 ]
 
-from testing.cmd import testing_cmd
+from testing.cmd    import testing_cmd
 from testing.config import testing_config
+from testing.db     import testing_db
