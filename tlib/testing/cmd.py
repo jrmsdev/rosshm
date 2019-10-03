@@ -23,7 +23,9 @@ def cmd_ctx():
 			cmd_main.wapp.init.return_value = cmd_main.wapp.mock_app
 			yield cmd_main
 		finally:
+			del cmd_main.proc
 			cmd_main.proc = proc
+			del cmd_main.wapp
 			cmd_main.wapp = wapp
 
 @pytest.fixture

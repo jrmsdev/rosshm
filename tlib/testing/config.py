@@ -10,16 +10,21 @@ from testing import tdata
 __all__ = ['testing_config', 'config_ctx']
 
 @contextmanager
-def config_ctx(fn = 'rosshm.ini'):
+def config_ctx(fn = 'rosshm.ini', init = True):
 	cfg = config._cfg
 	try:
 		fn = str(tdata / fn)
-		config.init(fn = fn)
-		assert config._cfgfn == fn, \
-			f"config file not read: got: {config._cfgfn} - expect: {fn}"
+		if init:
+			config.init(fn = fn)
+			assert config._cfgfn == fn, \
+				f"config file not read: got: {config._cfgfn} - expect: {fn}"
+		else:
+			config._cfgfn = fn
 		yield config._cfg
 	finally:
+		del config._cfg
 		config._cfg = cfg
+		del config._cfgfn
 		config._cfgfn = None
 
 @pytest.fixture

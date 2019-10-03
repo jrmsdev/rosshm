@@ -9,6 +9,9 @@ def test_config(testing_config):
 	with testing_config():
 		assert config.filename().endswith('rosshm.ini')
 		assert config.getbool('debug')
+	with testing_config(init = False):
+		config.init(fn = None)
+		assert config.getbool('debug')
 
 def test_database(testing_config):
 	with testing_config():
