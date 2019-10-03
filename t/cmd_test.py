@@ -7,6 +7,14 @@ from subprocess import CalledProcessError
 from rosshm import config
 from rosshm.libdir import libdir
 
+def test_debug(testing_cmd):
+	with testing_cmd() as cmd:
+		cmd.main(['--config', config.filename(), '--debug'])
+		cmd.wapp.init.assert_called_with(cfgfn = config.filename())
+		args = {'debug': True, 'host': '127.0.0.1', 'port': 3721,
+			'quiet': False, 'reloader': True}
+		cmd.wapp.mock_app.run.assert_called_with(**args)
+
 def test_uwsgi(testing_cmd):
 	inifn = str(libdir / 'wapp' / 'uwsgi.ini')
 	with testing_cmd() as cmd:
@@ -28,14 +36,6 @@ def test_uwsgi(testing_cmd):
 		x += ('--ini', inifn)
 		e = {'ROSSHM_CONFIG': config.filename()}
 		cmd.proc.run.assert_called_with(x, check = True, env = e, shell = False)
-
-def test_debug(testing_cmd):
-	with testing_cmd() as cmd:
-		cmd.main(['--config', config.filename(), '--debug'])
-		cmd.wapp.init.assert_called_with(cfgfn = config.filename())
-		args = {'debug': True, 'host': '127.0.0.1', 'port': 3721,
-			'quiet': False, 'reloader': True}
-		cmd.wapp.mock_app.run.assert_called_with(**args)
 
 def test_uwsgi_error(testing_cmd):
 	with testing_cmd() as cmd:
