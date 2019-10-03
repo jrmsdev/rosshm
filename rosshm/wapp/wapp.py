@@ -21,7 +21,7 @@ def init(cfgfn = None):
 		log.init('debug')
 	else:
 		log.init(config.get('log.level'))
-	log.debug(f"rosshm version {version.get()}")
+	log.debug(version.string('rosshm'))
 
 	tpldir = path.abspath(libdir / 'tpl')
 	log.debug(f"templates path {tpldir}")
