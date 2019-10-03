@@ -15,7 +15,7 @@ _cfg = ConfigParser(
 	interpolation = ExtendedInterpolation(),
 	defaults = {
 		'debug': False,
-		'datadir': path.expanduser(path.join('~', '.local', 'rosshm')),
+		'datadir': path.join(path.expanduser('~'), '.local', 'rosshm'),
 		'log.level': 'warn',
 		'core.enable': True,
 		'db.driver': 'sqlite',
@@ -28,7 +28,7 @@ _cfg = ConfigParser(
 
 _cfgfn = getenv('ROSSHM_CONFIG', '')
 if _cfgfn == '':
-	_cfgfn = path.expanduser(path.join('~', '.config', 'rosshm.ini'))
+	_cfgfn = path.join(path.expanduser('~'), '.config', 'rosshm.ini')
 
 def init(fn = None):
 	global _cfgfn

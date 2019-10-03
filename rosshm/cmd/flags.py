@@ -3,6 +3,7 @@
 
 import sys
 import argparse
+from os import path
 
 from rosshm import log, version
 
@@ -11,6 +12,7 @@ __all__ = ['parse']
 _desc = 'ross, the house master'
 
 def _new():
+	cfgfn = path.join(path.expanduser('~'), '.config', 'rosshm.ini')
 	p = argparse.ArgumentParser(prog = 'rosshm', description = _desc)
 	p.add_argument('-V', '--version', help = 'show version and exit',
 		action = 'version', version = version.string())
@@ -19,7 +21,7 @@ def _new():
 	p.add_argument('--log', help = ', '.join(log.levels()), metavar = 'level',
 		default = log.defaultLevel(), choices = log.levels())
 	p.add_argument('--config', help = '~/.config/rosshm.ini',
-		metavar = 'filename', default = '~/.config/rosshm.ini')
+		metavar = 'filename', default = cfgfn)
 	p.add_argument('--workers', help = 'number of CPU(s)',
 		metavar = 'number', default = '')
 	p.add_argument('--threads', help = 'number of CPU(s)',

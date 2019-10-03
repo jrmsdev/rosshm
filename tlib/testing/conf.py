@@ -6,12 +6,12 @@ import pytest
 from contextlib import contextmanager
 from os import environ, path
 from pathlib import Path
-from unittest.mock import Mock
+from unittest.mock import MagicMock
 
 # set testing os environ
 _osenv = {
 	'ROSSHM_CONFIG': '',
-	'ROSSHM_HOME': '',
+	'ROSSHM_HOME': path.join(path.sep, 'opt', 'rosshm'),
 }
 for k, v in _osenv.items():
 	environ.setdefault(k, v)
@@ -53,11 +53,12 @@ from rosshm.cmd import main as cmd_main
 @contextmanager
 def cmd_ctx():
 	proc = cmd_main.proc
-	try:
-		cmd_main.proc = Mock()
-		yield cmd_main
-	finally:
-		cmd_main.proc = proc
+	with config_ctx():
+		try:
+			cmd_main.proc.run = MagicMock(return_value = 0)
+			yield cmd_main
+		finally:
+			cmd_main.proc = proc
 
 @pytest.fixture
 def testing_cmd():
