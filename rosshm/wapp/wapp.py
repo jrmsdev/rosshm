@@ -38,7 +38,7 @@ def init(cfgfn = None):
 
 	if config.getbool('static.enable'):
 		log.debug('serve static files')
-		wapp.route('/static/<filename:re:.*\..*>', 'GET', static.serve,
+		wapp.route(r'/static/<filename:re:.*\..*>', 'GET', static.serve,
 			name = 'static')
 
 	coreok = False
