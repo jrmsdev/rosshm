@@ -55,7 +55,7 @@ def cmd_ctx():
 	proc = cmd_main.proc
 	with config_ctx():
 		try:
-			cmd_main.proc.run = MagicMock(return_value = 0)
+			cmd_main.proc.run = MagicMock()
 			yield cmd_main
 		finally:
 			cmd_main.proc = proc
