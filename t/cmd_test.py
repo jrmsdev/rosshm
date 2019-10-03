@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from os import path
+from subprocess import CalledProcessError
 
 from rosshm import config
 from rosshm.libdir import libdir
@@ -35,3 +36,13 @@ def test_debug(testing_cmd):
 		args = {'debug': True, 'host': '127.0.0.1', 'port': 3721,
 			'quiet': False, 'reloader': True}
 		cmd.wapp.mock_app.run.assert_called_with(**args)
+
+def test_uwsgi_error(testing_cmd):
+	with testing_cmd() as cmd:
+		cmd.proc.run.side_effect = CalledProcessError(9, 'testing')
+		rc = cmd.main(['--config', config.filename()])
+		assert rc == 9
+	with testing_cmd() as cmd:
+		cmd.proc.run.side_effect = KeyboardInterrupt()
+		rc = cmd.main(['--config', config.filename()])
+		assert rc == 128
