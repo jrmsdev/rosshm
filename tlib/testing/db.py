@@ -5,18 +5,28 @@ import pytest
 from contextlib import contextmanager
 from unittest.mock import Mock
 
+from rosshm.db import db
 from testing.config import config_ctx
 
 __all__ = ['testing_db', 'db_ctx']
 
 @contextmanager
-def db_ctx():
+def db_ctx(create = True):
 	try:
 		with config_ctx() as cfg:
+			cfg.set('rosshm', 'db.driver', 'sqlite')
 			cfg.set('rosshm', 'db.name', ':memory:')
-			yield
+			conn = None
+			if create:
+				dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
+				conn = db.connect(dbcfg)
+				db.create(conn)
+			yield conn
 	finally:
-		pass
+		if conn is not None:
+			conn.close()
+		del conn
+		conn = None
 
 @pytest.fixture
 def testing_db():
