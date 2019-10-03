@@ -12,10 +12,9 @@ from rosshm.wapp import wapp
 
 __all__ = ['main']
 
-def main():
-	args = flags.parse()
+def main(argv = None):
+	args = flags.parse(argv)
 	cfgfn = path.abspath(args.config)
-
 	if args.debug:
 		return _debugMode(args, cfgfn)
 	else:

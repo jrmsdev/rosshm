@@ -32,9 +32,9 @@ def _new():
 		metavar = 'number', default = '3721')
 	return p
 
-def parse():
+def parse(argv):
 	p = _new()
-	args = p.parse_args()
+	args = p.parse_args(args = argv)
 	if args.debug:
 		log.init('debug')
 	else:

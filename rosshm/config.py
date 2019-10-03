@@ -30,8 +30,10 @@ _cfgfn = getenv('ROSSHM_CONFIG', '')
 if _cfgfn == '':
 	_cfgfn = path.expanduser(path.join('~', '.config', 'rosshm.ini'))
 
-def init(fn = _cfgfn):
+def init(fn = None):
 	global _cfgfn
+	if fn is None:
+		fn = _cfgfn
 	fn = path.abspath(fn)
 	if path.isfile(fn):
 		with open(fn, 'r') as fh:
