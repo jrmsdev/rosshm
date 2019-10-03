@@ -6,7 +6,7 @@ import pytest
 from contextlib import contextmanager
 from os import environ, path
 from pathlib import Path
-from unittest.mock import MagicMock
+from unittest.mock import Mock
 
 # set testing os environ
 _osenv = {
@@ -17,9 +17,11 @@ for k, v in _osenv.items():
 	environ.setdefault(k, v)
 	environ[k] = v
 
-__all__ = ['testing_config', 'testing_cmd']
-
+# test data paths manager
 tdata = Path(path.abspath(path.join('.', 'tdata')))
+
+# export fixtures
+__all__ = ['testing_config', 'testing_cmd']
 
 #
 # config
@@ -53,12 +55,18 @@ from rosshm.cmd import main as cmd_main
 @contextmanager
 def cmd_ctx():
 	proc = cmd_main.proc
+	wapp = cmd_main.wapp
 	with config_ctx():
 		try:
-			cmd_main.proc.run = MagicMock()
+			cmd_main.proc.run = Mock()
+			cmd_main.wapp = Mock()
+			cmd_main.wapp.init = Mock()
+			cmd_main.wapp.mock_app = Mock()
+			cmd_main.wapp.init.return_value = cmd_main.wapp.mock_app
 			yield cmd_main
 		finally:
 			cmd_main.proc = proc
+			cmd_main.wapp = wapp
 
 @pytest.fixture
 def testing_cmd():

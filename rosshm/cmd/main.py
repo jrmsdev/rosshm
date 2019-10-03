@@ -28,8 +28,8 @@ def _debugMode(args, cfgfn):
 	return 0
 
 def _gethome():
-	h = getenv('ROSSHM_HOME', None)
-	if h is None:
+	h = getenv('ROSSHM_HOME', '')
+	if h == '': # pragma: no cover
 		h = sys.exec_prefix
 	return path.abspath(h)
 
@@ -70,5 +70,5 @@ def _uwsgi(args, cfgfn):
 	log.debug(f"exit {rc}")
 	return rc
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
 	sys.exit(main())

@@ -25,5 +25,13 @@ def test_uwsgi(testing_cmd):
 		x += ('--set-ph', 'rosshm-port=3721')
 		x += ('--touch-reload', config.filename())
 		x += ('--ini', inifn)
-		env = {'ROSSHM_CONFIG': config.filename()}
-		cmd.proc.run.assert_called_with(x, check = True, env = env, shell = False)
+		e = {'ROSSHM_CONFIG': config.filename()}
+		cmd.proc.run.assert_called_with(x, check = True, env = e, shell = False)
+
+def test_debug(testing_cmd):
+	with testing_cmd() as cmd:
+		cmd.main(['--config', config.filename(), '--debug'])
+		cmd.wapp.init.assert_called_with(cfgfn = config.filename())
+		args = {'debug': True, 'host': '127.0.0.1', 'port': 3721,
+			'quiet': False, 'reloader': True}
+		cmd.wapp.mock_app.run.assert_called_with(**args)
