@@ -8,27 +8,30 @@ from rosshm.db import db
 
 __all__ = ['checkdb']
 
-def checkdb(config):
+def checkdb(config, conn = None):
 	log.debug('checkdb')
 	dbcfg = config.database()
 	log.debug(f"dbcfg {dbcfg}")
-	if dbcfg.get('driver') == 'sqlite':
+	if dbcfg.get('driver') == 'sqlite' and dbcfg.get('name') != ':memory:':
 		dbfn = dbcfg.get('name')
 		if not path.isfile(dbfn):
 			makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)
 	rv = True
 	try:
-		conn = db.connect(dbcfg)
+		if conn is None:
+			conn = db.connect(dbcfg)
 		rv = _check(conn)
 	except db.Error as err:
 		log.error(f"check database: {err}")
 		return False
+	finally:
+		if conn is not None:
+			conn.close()
 	return rv
 
 def _check(conn):
 	log.debug('db status')
 	s = db.status(conn)
-	conn.close()
 	if not s:
 		return False
 	return s['status'] == 'ok'

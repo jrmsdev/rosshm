@@ -6,6 +6,7 @@ from unittest.mock import Mock
 
 from rosshm import config
 from rosshm.db import db
+from rosshm.db.check import checkdb
 from rosshm.db.reg import register
 
 def test_config(testing_db):
@@ -27,3 +28,9 @@ def test_register_error(testing_db):
 		obj.table = 'schema'
 		with raises(RuntimeError, match = 'table schema already registered'):
 			register(obj)
+
+def test_checkdb(testing_db):
+	with testing_db(create = False):
+		assert not checkdb(config)
+	with testing_db() as conn:
+		assert checkdb(config, conn = conn)
