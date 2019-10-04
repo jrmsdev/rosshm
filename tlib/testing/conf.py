@@ -4,10 +4,10 @@
 from os import environ, path, unlink
 
 # cleanup build/dist files
-# ~ for fn in ('_version.py', '_version_build.py'):
-	# ~ fn = path.join('rosshm', fn)
-	# ~ if path.isfile(fn):
-		# ~ unlink(fn)
+for fn in ('_version.py', '_version_build.py'):
+	fn = path.join('rosshm', fn)
+	if path.isfile(fn):
+		unlink(fn)
 
 # set testing os environ
 _osenv = {
@@ -25,6 +25,6 @@ __all__ = [
 	'testing_db',
 ]
 
-from testing.cmd    import testing_cmd
-from testing.config import testing_config
-from testing.db     import testing_db
+from testing.cmd_ctx    import testing_cmd
+from testing.config_ctx import testing_config
+from testing.db_ctx     import testing_db

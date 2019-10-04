@@ -6,7 +6,7 @@ from contextlib import contextmanager
 from unittest.mock import Mock
 
 from rosshm.db import db
-from testing.config import config_ctx
+from testing.config_ctx import config_ctx
 
 __all__ = ['testing_db', 'db_ctx']
 
