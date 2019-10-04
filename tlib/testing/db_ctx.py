@@ -6,12 +6,15 @@ from contextlib import contextmanager
 from unittest.mock import Mock
 
 from rosshm.db import db
-from testing.config_ctx import config_ctx
+from rosshm.db.table import DBTable
 
-__all__ = ['testing_db', 'db_ctx']
+from testing.config_ctx import config_ctx
+from testing.db.schema import DBTesting
+
+__all__ = ['testing_db', 'db_ctx', 'testing_schema']
 
 @contextmanager
-def db_ctx(create = True):
+def db_ctx(create = True, db_t = False):
 	try:
 		with config_ctx() as cfg:
 			cfg.set('rosshm', 'db.driver', 'sqlite')
@@ -21,6 +24,9 @@ def db_ctx(create = True):
 				dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
 				conn = db.connect(dbcfg)
 				db.create(conn)
+				if db_t:
+					_t = DBTable(DBTesting())
+					_t.create(conn)
 			yield conn
 	finally:
 		if conn is not None:
