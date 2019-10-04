@@ -15,24 +15,24 @@ __all__ = ['testing_db', 'db_ctx', 'testing_schema']
 
 @contextmanager
 def db_ctx(create = True, db_t = False):
-	try:
-		with config_ctx() as cfg:
-			cfg.set('rosshm', 'db.driver', 'sqlite')
-			cfg.set('rosshm', 'db.name', ':memory:')
+	conn = None
+	with config_ctx() as cfg:
+		cfg.set('rosshm', 'db.driver', 'sqlite')
+		cfg.set('rosshm', 'db.name', ':memory:')
+		if create:
+			dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
+			conn = db.connect(dbcfg)
+			db.create(conn)
+			if db_t:
+				_t = DBTable(DBTesting())
+				_t.create(conn)
+		try:
+				yield conn
+		finally:
+			if conn is not None:
+				conn.close()
+			del conn
 			conn = None
-			if create:
-				dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
-				conn = db.connect(dbcfg)
-				db.create(conn)
-				if db_t:
-					_t = DBTable(DBTesting())
-					_t.create(conn)
-			yield conn
-	finally:
-		if conn is not None:
-			conn.close()
-		del conn
-		conn = None
 
 @pytest.fixture
 def testing_db():

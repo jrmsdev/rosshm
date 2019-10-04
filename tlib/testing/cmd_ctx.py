@@ -15,12 +15,12 @@ def cmd_ctx():
 	proc = cmd_main.proc
 	wapp = cmd_main.wapp
 	with config_ctx():
+		cmd_main.proc.run = Mock()
+		cmd_main.wapp = Mock()
+		cmd_main.wapp.init = Mock()
+		cmd_main.wapp.mock_app = Mock()
+		cmd_main.wapp.init.return_value = cmd_main.wapp.mock_app
 		try:
-			cmd_main.proc.run = Mock()
-			cmd_main.wapp = Mock()
-			cmd_main.wapp.init = Mock()
-			cmd_main.wapp.mock_app = Mock()
-			cmd_main.wapp.init.return_value = cmd_main.wapp.mock_app
 			yield cmd_main
 		finally:
 			del cmd_main.proc
