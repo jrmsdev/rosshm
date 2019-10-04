@@ -3,6 +3,7 @@
 
 from rosshm import log
 from rosshm.db import reg
+from rosshm.db.conn import DBConn
 from rosshm.db.schema.schema import DBSchema
 from rosshm.db.schema.status import DBStatus
 
@@ -14,19 +15,21 @@ IntegrityError = None
 def connect(cfg):
 	global Error
 	global IntegrityError
+	conn = None
 	drv = cfg.get('driver')
 	if drv == 'sqlite':
 		from rosshm.db.drv import sqlite
 		Error = sqlite.Error
 		IntegrityError = sqlite.IntegrityError
-		return sqlite.connect(cfg)
+		conn = sqlite.connect(cfg)
 	elif drv in ('mysql', 'mariadb'):
 		from rosshm.db.drv import mysql
 		Error = mysql.Error
 		IntegrityError = mysql.IntegrityError
-		return mysql.connect(cfg)
+		conn = mysql.connect(cfg)
 	else:
 		raise RuntimeError(f"invalid database driver: {drv}")
+	return DBConn(conn)
 
 def status(conn):
 	s = DBStatus()
