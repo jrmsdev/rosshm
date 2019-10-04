@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from os import environ, path, unlink
+from unittest.mock import Mock
 
 # cleanup build/dist files
 for fn in ('_version.py', '_version_build.py'):
@@ -17,6 +18,11 @@ _osenv = {
 for k, v in _osenv.items():
 	environ.setdefault(k, v)
 	environ[k] = v
+
+# config testing logger
+import rosshm.log
+rosshm.log.init('debug')
+rosshm.log.init = Mock()
 
 # export fixtures
 __all__ = [
