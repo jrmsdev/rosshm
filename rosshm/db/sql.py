@@ -39,8 +39,9 @@ def _mkStr(args):
 #
 # INSERT
 #
-def insert(table, fields, data):
-	fields = tuple(fields)
+def insert(obj, data):
+	table = obj.table
+	fields = tuple(obj.fields.keys())
 	fl = deque()
 	vl = deque()
 	for k, v in data.items():
@@ -56,8 +57,9 @@ def insert(table, fields, data):
 #
 # SELECT
 #
-def select(table, fields, filter, where):
-	fields = tuple(fields)
+def select(obj, filter, where):
+	table = obj.table
+	fields = tuple(obj.fields.keys())
 	args = tuple()
 	select = '*'
 	flen = len(filter)

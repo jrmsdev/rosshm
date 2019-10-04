@@ -26,9 +26,9 @@ class DBObject(object):
 			self.fields[f] = inf
 
 	def set(self, db, **data):
-		stmt, args = sql.insert(self.table, self.fields, data)
+		stmt, args = sql.insert(self, data)
 		db.execute(stmt, args)
 
 	def get(self, db, *filter, **where):
-		stmt, args = sql.select(self.table, self.fields.keys(), filter, where)
+		stmt, args = sql.select(self, filter, where)
 		return db.execute(stmt, args).fetchone()
