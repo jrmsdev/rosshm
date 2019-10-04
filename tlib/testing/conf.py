@@ -4,10 +4,10 @@
 from os import environ, path, unlink
 
 # cleanup build/dist files
-for fn in ('_version.py', '_version_build.py'):
-	fn = path.join('rosshm', fn)
-	if path.isfile(fn):
-		unlink(fn)
+# ~ for fn in ('_version.py', '_version_build.py'):
+	# ~ fn = path.join('rosshm', fn)
+	# ~ if path.isfile(fn):
+		# ~ unlink(fn)
 
 # set testing os environ
 _osenv = {
