@@ -32,7 +32,7 @@ class DBConn(object):
 		log.debug('rollback')
 		self._conn.rollback()
 
-	def execute(self, op, param = None):
+	def execute(self, op, param = tuple()):
 		log.debug('execute')
 		if self._cur is not None:
 			log.debug('close cursor')
@@ -40,8 +40,5 @@ class DBConn(object):
 			del self._cur
 			self._cur = None
 		self._cur = self._conn.cursor()
-		if param is None:
-			self._cur.execute(op)
-		else:
-			self._cur.execute(op, param)
+		self._cur.execute(op, param)
 		return self._cur
