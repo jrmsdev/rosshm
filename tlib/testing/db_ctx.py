@@ -14,7 +14,7 @@ from testing.db.schema import DBTesting
 __all__ = ['testing_db', 'db_ctx', 'testing_schema']
 
 @contextmanager
-def db_ctx(create = True, db_t = False):
+def db_ctx(create = True, db_t = False, close = True):
 	conn = None
 	with config_ctx() as cfg:
 		cfg.set('rosshm', 'db.driver', 'sqlite')
@@ -29,10 +29,10 @@ def db_ctx(create = True, db_t = False):
 		try:
 				yield conn
 		finally:
-			if conn is not None:
+			if close and conn is not None:
 				conn.close()
-			del conn
-			conn = None
+				del conn
+				conn = None
 
 @pytest.fixture
 def testing_db():

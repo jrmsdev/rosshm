@@ -33,11 +33,11 @@ def test_register_error(testing_db):
 def test_checkdb(testing_db):
 	with testing_db(create = False):
 		assert not checkdb(config)
-	with testing_db() as conn:
+	with testing_db(close = False) as conn:
 		assert checkdb(config, conn = conn)
 
 def test_checkdb_makedirs(testing_db):
-	with testing_db() as conn:
+	with testing_db(close = False) as conn:
 		makedirs = check.makedirs
 		isfile = check.path.isfile
 		try:
@@ -56,7 +56,7 @@ def test_checkdb_makedirs(testing_db):
 			check.path.isfile = isfile
 
 def test_checkdb_no_status(testing_db):
-	with testing_db() as conn:
+	with testing_db(close = False) as conn:
 		status = check.db.status
 		try:
 			check.db.status = Mock(return_value = None)
