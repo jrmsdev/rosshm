@@ -68,7 +68,7 @@ def select(table, fields, filter, where):
 		for n in filter:
 			if n in fields:
 				names.append(n)
-		select = "(%s)" % ', '.join(names)
+		select = "%s" % ', '.join(names)
 	s = "SELECT %s FROM rosshm_%s" % (select, table)
 	for k, v in where.items():
 		if k == 'pk' or k in fields:
