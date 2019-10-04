@@ -10,14 +10,27 @@ from rosshm.db.schema.status import DBStatus
 
 __all__ = ['Error', 'connect', 'status', 'create']
 
-Error = sqlite3.OperationalError
-IntegrityError = sqlite3.IntegrityError
+Error = None
+IntegrityError = None
 
 def connect(cfg):
-	fn = cfg.get('name')
-	conn = sqlite3.connect(fn)
-	conn.row_factory = sqlite3.Row
-	return conn
+	global Error
+	global IntegrityError
+	drv = cfg.get('driver')
+	if drv in ('mysql', 'mariadb'):
+		import MySQLdb
+		Error = MySQLdb.OperationalError
+		IntegrityError = MySQLdb.IntegrityError
+		return MySQLdb.connect(
+			host = cfg.get('host', 'localhost'),
+		)
+	else:
+		Error = sqlite3.OperationalError
+		IntegrityError = sqlite3.IntegrityError
+		fn = cfg.get('name')
+		conn = sqlite3.connect(fn)
+		conn.row_factory = sqlite3.Row
+		return conn
 
 def status(conn):
 	s = DBStatus()
