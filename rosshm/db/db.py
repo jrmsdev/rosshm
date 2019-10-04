@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-import sqlite3
-
 from rosshm import log
 from rosshm.db import reg
 from rosshm.db.schema.schema import DBSchema
@@ -17,20 +15,18 @@ def connect(cfg):
 	global Error
 	global IntegrityError
 	drv = cfg.get('driver')
-	if drv in ('mysql', 'mariadb'):
-		import MySQLdb
-		Error = MySQLdb.OperationalError
-		IntegrityError = MySQLdb.IntegrityError
-		return MySQLdb.connect(
-			host = cfg.get('host', 'localhost'),
-		)
+	if drv == 'sqlite':
+		from rosshm.db.drv import sqlite
+		Error = sqlite.Error
+		IntegrityError = sqlite.IntegrityError
+		return sqlite.connect(cfg)
+	elif drv in ('mysql', 'mariadb'):
+		from rosshm.db.drv import mysql
+		Error = mysql.Error
+		IntegrityError = mysql.IntegrityError
+		return mysql.connect(cfg)
 	else:
-		Error = sqlite3.OperationalError
-		IntegrityError = sqlite3.IntegrityError
-		fn = cfg.get('name')
-		conn = sqlite3.connect(fn)
-		conn.row_factory = sqlite3.Row
-		return conn
+		raise RuntimeError(f"invalid database driver: {drv}")
 
 def status(conn):
 	s = DBStatus()

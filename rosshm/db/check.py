@@ -9,9 +9,8 @@ from rosshm.db import db
 __all__ = ['checkdb']
 
 def checkdb(config, conn = None):
-	log.debug('checkdb')
 	dbcfg = config.database()
-	log.debug(f"dbcfg {dbcfg}")
+	log.debug(f"checkdb {dbcfg['driver']} {dbcfg['name']} {dbcfg['config']}")
 	if dbcfg.get('driver') == 'sqlite' and dbcfg.get('name') != ':memory:':
 		dbfn = dbcfg.get('name')
 		if not path.isfile(dbfn):

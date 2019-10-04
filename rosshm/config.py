@@ -49,28 +49,25 @@ def filename():
 	return _cfgfn
 
 def database():
+	cfg = {}
+	for k, v in _cfg.items('rosshm'):
+		if k.startswith('db.'):
+			opt = k.replace('db.', '', 1)
+			cfg[opt] = v
 	drv = get('db.driver')
 	name = get('db.name')
 	cfgfn = get('db.config')
 	if cfgfn != '':
 		cfgfn = path.abspath(path.expanduser(cfgfn))
-	cfg = {
+	cfg.update({
 		'driver': drv,
 		'name': name,
 		'config': cfgfn,
-	}
+	})
 	if drv == 'sqlite':
 		if name != ':memory:':
 			cfg['name'] = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
-		return cfg
-	elif drv in ('mysql', 'mariadb'):
-		mycnf = {}
-		for k, v in _cfg.items('rosshm'):
-			if k.startswith('db.'):
-				opt = k.replace('db.', '', 1)
-				mycnf[opt] = v
-		mycnf.update(cfg)
-		return mycnf
+	return cfg
 
 def get(option, **kwargs):
 	return _cfg.get('rosshm', option, **kwargs)
