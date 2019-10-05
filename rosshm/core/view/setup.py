@@ -19,7 +19,7 @@ def redirect(rpath = ''):
 #
 def _dbconn():
 	dbcfg = config.database()
-	log.debug(f"dbcfg {dbcfg}")
+	log.debug(f"dbcfg {dbcfg['driver']} {dbcfg['name']}")
 	return db.connect(dbcfg)
 
 #
@@ -31,8 +31,10 @@ def _dbstatus():
 	error = None
 	try:
 		conn = _dbconn()
-		status = dict(db.status(conn))
+		status = db.status(conn)
 		conn.close()
+		if status is not None:
+			status = dict(status)
 	except db.DatabaseError as err:
 		log.error(f"check database: {err}")
 		error = str(err)
