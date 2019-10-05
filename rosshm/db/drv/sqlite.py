@@ -3,10 +3,17 @@
 
 import sqlite3
 
+from rosshm import log
+from rosshm.db import sql
+from rosshm.db.lang.sqlite import SqliteLang
+
 Error = sqlite3.OperationalError
 IntegrityError = sqlite3.IntegrityError
 
 def connect(cfg):
+	log.debug('set sql lang manager')
+	sql.setLang(SqliteLang())
+	log.debug('connect')
 	fn = cfg.get('name')
 	conn = sqlite3.connect(f"file:{fn}?cache=shared", uri = True)
 	conn.row_factory = sqlite3.Row

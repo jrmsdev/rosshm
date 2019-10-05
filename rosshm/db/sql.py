@@ -5,13 +5,20 @@ from collections import deque
 
 from rosshm import log
 
+# lang specifics manager
+lang = None
+
+def setLang(manager):
+	global lang
+	lang = manager
+
 #
 # CREATE TABLE
 #
 def createTable(name, fields):
-	s = "CREATE TABLE rosshm_%s" % name
+	s = lang.createTable(name)
 	fl = deque()
-	fl.append('pk INTEGER PRIMARY KEY AUTOINCREMENT')
+	fl.append(lang.primaryKey())
 	for f, d in fields.items():
 		typ = d[0]
 		args = d[1]
