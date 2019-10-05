@@ -38,7 +38,6 @@ class DBConn(object):
 			log.debug('close cursor')
 			self._cur.close()
 			del self._cur
-			self._cur = None
 		self._cur = self._conn.cursor()
 		self._cur.execute(op, param)
 		return self._cur

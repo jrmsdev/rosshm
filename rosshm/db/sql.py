@@ -10,13 +10,14 @@ lang = None
 
 def setLang(manager):
 	global lang
+	log.debug(f"set lang {manager.name}")
 	lang = manager
 
 #
 # CREATE TABLE
 #
 def createTable(name, fields):
-	s = lang.createTable(name)
+	s = f"CREATE TABLE rosshm_{name}"
 	fl = deque()
 	fl.append(lang.primaryKey())
 	for f, d in fields.items():

@@ -4,4 +4,4 @@
 from rosshm.db.lang.base import BaseLang
 
 class MySQLLang(BaseLang):
-	pass
+	name = 'mysql'

@@ -4,4 +4,4 @@
 from rosshm.db.lang.base import BaseLang
 
 class SqliteLang(BaseLang):
-	pass
+	name = 'sqlite'

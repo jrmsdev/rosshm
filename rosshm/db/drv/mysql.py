@@ -11,9 +11,8 @@ Error = MySQLdb.OperationalError
 IntegrityError = MySQLdb.IntegrityError
 
 def connect(cfg):
-	log.debug('set sql lang manager')
-	sql.setLang(MySQLLang())
 	log.debug('connect')
+	sql.setLang(MySQLLang())
 	return MySQLdb.connect(
 		host            = cfg.get('host'    , 'localhost'),
 		db              = cfg.get('name'    , 'rosshmdb'),

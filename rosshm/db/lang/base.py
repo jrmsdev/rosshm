@@ -2,9 +2,7 @@
 # See LICENSE file.
 
 class BaseLang(object):
-
-	def createTable(self, name):
-		return f"CREATE TABLE rosshm_{name}"
+	name = None
 
 	def primaryKey(self, name = 'pk'):
 		return f"{name} INTEGER PRIMARY KEY AUTOINCREMENT"
