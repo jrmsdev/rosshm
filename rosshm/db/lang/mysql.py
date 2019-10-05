@@ -5,3 +5,4 @@ from rosshm.db.lang.base import BaseLang
 
 class MySQLLang(BaseLang):
 	name = 'mysql'
+	paramstyle = None # set at connect time

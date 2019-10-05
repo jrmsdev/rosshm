@@ -18,7 +18,7 @@ def fieldType(fields, name):
 	if name == 'pk':
 		return int
 	m = fields.get(name)
-	return m[1][0]
+	return m[0]
 
 #
 # CREATE TABLE
@@ -59,13 +59,16 @@ def insert(obj, data):
 	fields = tuple(obj.fields.keys())
 	fl = deque()
 	vl = deque()
+	vfmt = deque()
 	for k, v in data.items():
 		if k == 'pk' or k in fields:
 			fl.append(k)
 			vl.append(v)
-	s = "INSERT INTO rosshm_%s" % table
+			typ = fieldType(obj.fields, k)
+			vfmt.append(lang.valfmt(typ))
+	s = f"INSERT INTO rosshm_{table}"
 	s += " (%s)" % ', '.join(fl)
-	s += " VALUES (%s);" % ', '.join(['?' for x in vl])
+	s += " VALUES (%s);" % ', '.join(vfmt)
 	log.debug(s)
 	return (s, vl)
 

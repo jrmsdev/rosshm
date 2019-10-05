@@ -3,11 +3,14 @@
 
 class BaseLang(object):
 	name = None
+	paramstyle = 'qmark'
 
 	def primaryKey(self, name = 'pk'):
 		return f"{name} INTEGER PRIMARY KEY AUTOINCREMENT"
 
 	def valfmt(self, typ):
-		if typ is str:
-			return "'?'"
+		if self.paramstyle == 'qmark':
+			return self._qmark(typ)
+
+	def _qmark(self, typ):
 		return '?'
