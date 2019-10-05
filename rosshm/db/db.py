@@ -33,7 +33,7 @@ def connect(cfg):
 
 def status(conn):
 	s = DBStatus()
-	return s.get(conn, 'status', pk = 0)
+	return s.get(conn, 'status', pk = 1)
 
 def create(conn):
 	meta = DBSchema()
@@ -50,6 +50,6 @@ def create(conn):
 		meta.set(conn, object = tbl.name, version = tbl.version)
 	# set db status
 	s = DBStatus()
-	s.set(conn, pk = 0, status = 'ok')
+	s.set(conn, status = 'ok')
 	conn.commit()
 	return {}

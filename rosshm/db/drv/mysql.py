@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 import MySQLdb
+from MySQLdb.cursors import DictCursor
 
 from rosshm import log
 from rosshm.db import sql
@@ -23,4 +24,5 @@ def connect(cfg):
 		connect_timeout = cfg.get('timeout' , 60),
 		charset         = cfg.get('charset' , 'utf8'),
 		use_unicode     = True,
+		cursorclass     = DictCursor,
 	)
