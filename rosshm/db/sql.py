@@ -63,9 +63,9 @@ def insert(obj, data):
 	for k, v in data.items():
 		if k == 'pk' or k in fields:
 			fl.append(k)
-			vl.append(v)
 			typ = fieldType(obj.fields, k)
 			vfmt.append(lang.valfmt(typ))
+			vl.append(typ(v))
 	s = f"INSERT INTO rosshm_{table}"
 	s += " (%s)" % ', '.join(fl)
 	s += " VALUES (%s);" % ', '.join(vfmt)
@@ -98,7 +98,7 @@ def select(obj, filter, where):
 		if k == 'pk' or k in fields:
 			typ = fieldType(obj.fields, k)
 			s += f"{cond}{k}=" + lang.valfmt(typ)
-			args += (v,)
+			args += (typ(v),)
 		i += 1
 	s += ";"
 	log.debug(s)

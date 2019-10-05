@@ -9,8 +9,14 @@ class LangBase(object):
 		return f"{name} INTEGER PRIMARY KEY AUTOINCREMENT"
 
 	def valfmt(self, typ):
-		if self.paramstyle == 'qmark':
-			return self._qmark(typ)
+		if self.paramstyle == 'format':
+			return self._format(typ)
+		return self._qmark(typ)
 
 	def _qmark(self, typ):
 		return '?'
+
+	def _format(self, typ):
+		if typ is int:
+			return '%s'
+		return "'%s'"
