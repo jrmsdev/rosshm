@@ -13,6 +13,13 @@ def setLang(manager):
 	log.debug(f"set lang {manager.name}")
 	lang = manager
 
+# get fields type
+def fieldType(fields, name):
+	if name == 'pk':
+		return int
+	m = fields.get(name)
+	return m[1][0]
+
 #
 # CREATE TABLE
 #
@@ -79,11 +86,17 @@ def select(obj, filter, where):
 			if n in fields:
 				names.append(n)
 		select = "%s" % ', '.join(names)
-	s = "SELECT %s FROM rosshm_%s" % (select, table)
+	s = f"SELECT {select} FROM rosshm_{table} WHERE"
+	i = 0
+	cond = ' AND '
 	for k, v in where.items():
+		if i == 0:
+			cond = ' '
 		if k == 'pk' or k in fields:
-			s += " WHERE %s=?" % k
+			typ = fieldType(obj.fields, k)
+			s += f"{cond}{k}=" + lang.valfmt(typ)
 			args += (v,)
+		i += 1
 	s += ";"
 	log.debug(s)
 	return (s, args)

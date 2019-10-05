@@ -6,3 +6,8 @@ class BaseLang(object):
 
 	def primaryKey(self, name = 'pk'):
 		return f"{name} INTEGER PRIMARY KEY AUTOINCREMENT"
+
+	def valfmt(self, typ):
+		if typ is str:
+			return "'?'"
+		return '?'
