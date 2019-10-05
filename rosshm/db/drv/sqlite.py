@@ -7,7 +7,7 @@ from rosshm import log
 from rosshm.db import sql
 from rosshm.db.lang.sqlite import SqliteLang
 
-Error = sqlite3.OperationalError
+DatabaseError = sqlite3.DatabaseError
 IntegrityError = sqlite3.IntegrityError
 
 def connect(cfg):

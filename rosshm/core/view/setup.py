@@ -33,7 +33,7 @@ def _dbstatus():
 		conn = _dbconn()
 		status = dict(db.status(conn))
 		conn.close()
-	except db.Error as err:
+	except db.DatabaseError as err:
 		log.error(f"check database: {err}")
 		error = str(err)
 	return {'error': error, 'status': status, 'db': config.database()}
@@ -65,7 +65,7 @@ def dbCreate():
 			rv = db.create(conn)
 			conn.close()
 			bottle.redirect('/_/setup')
-		except db.Error as err:
+		except db.DatabaseError as err:
 			log.error(f"create database: {err}")
 			rv['error'] = str(err)
 		except db.IntegrityError as err:

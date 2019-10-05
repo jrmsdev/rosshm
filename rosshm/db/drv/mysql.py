@@ -7,7 +7,7 @@ from rosshm import log
 from rosshm.db import sql
 from rosshm.db.lang.mysql import MySQLLang
 
-Error = MySQLdb.OperationalError
+DatabaseError = MySQLdb.DatabaseError
 IntegrityError = MySQLdb.IntegrityError
 
 def connect(cfg):

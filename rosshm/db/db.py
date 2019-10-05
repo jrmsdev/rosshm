@@ -9,22 +9,22 @@ from rosshm.db.schema.status import DBStatus
 
 __all__ = ['Error', 'connect', 'status', 'create']
 
-Error = None
+DatabaseError = None
 IntegrityError = None
 
 def connect(cfg):
-	global Error
+	global DatabaseError
 	global IntegrityError
 	conn = None
 	drv = cfg.get('driver')
 	if drv == 'sqlite':
 		from rosshm.db.drv import sqlite
-		Error = sqlite.Error
+		DatabaseError = sqlite.DatabaseError
 		IntegrityError = sqlite.IntegrityError
 		conn = sqlite.connect(cfg)
 	elif drv in ('mysql', 'mariadb'):
 		from rosshm.db.drv import mysql
-		Error = mysql.Error
+		DatabaseError = mysql.DatabaseError
 		IntegrityError = mysql.IntegrityError
 		conn = mysql.connect(cfg)
 	else:

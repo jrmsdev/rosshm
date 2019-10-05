@@ -20,7 +20,7 @@ def checkdb(config, conn = None):
 		if conn is None:
 			conn = db.connect(dbcfg)
 		rv = _check(conn)
-	except db.Error as err:
+	except db.DatabaseError as err:
 		log.error(f"check database: {err}")
 		return False
 	finally:

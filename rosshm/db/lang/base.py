@@ -17,6 +17,4 @@ class LangBase(object):
 		return '?'
 
 	def _format(self, typ):
-		if typ is int:
-			return '%s'
-		return "'%s'"
+		return '%s'
