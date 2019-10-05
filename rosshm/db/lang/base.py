@@ -3,18 +3,10 @@
 
 class LangBase(object):
 	name = None
-	paramstyle = 'qmark'
+	fmt = '?'
 
 	def primaryKey(self, name = 'pk'):
 		return f"{name} INTEGER PRIMARY KEY AUTOINCREMENT"
 
 	def valfmt(self, typ):
-		if self.paramstyle == 'format':
-			return self._format(typ)
-		return self._qmark(typ)
-
-	def _qmark(self, typ):
-		return '?'
-
-	def _format(self, typ):
-		return '%s'
+		return f"{self.fmt}"

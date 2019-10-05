@@ -14,7 +14,6 @@ IntegrityError = MySQLdb.IntegrityError
 def connect(cfg):
 	log.debug('connect')
 	lang = MySQLLang()
-	lang.paramstyle = MySQLdb.paramstyle
 	sql.setLang(lang)
 	return MySQLdb.connect(
 		host            = cfg.get('host'    , 'localhost'),
