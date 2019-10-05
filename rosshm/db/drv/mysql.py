@@ -5,7 +5,7 @@ import MySQLdb
 from MySQLdb.cursors import DictCursor
 
 from rosshm import log
-from rosshm.db import sql
+from rosshm.db.sql import sql
 from rosshm.db.lang.mysql import MySQLLang
 
 DatabaseError = MySQLdb.DatabaseError

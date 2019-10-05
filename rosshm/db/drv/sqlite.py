@@ -4,7 +4,7 @@
 import sqlite3
 
 from rosshm import log
-from rosshm.db import sql
+from rosshm.db.sql import sql
 from rosshm.db.lang.sqlite import SqliteLang
 
 DatabaseError = sqlite3.DatabaseError

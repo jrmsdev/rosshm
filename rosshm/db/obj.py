@@ -1,7 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from rosshm.db import sql
+from rosshm.db.sql import sql
 
 __all__ = ['DBObject']
 

@@ -2,7 +2,7 @@
 # See LICENSE file.
 
 from rosshm import log
-from rosshm.db import sql
+from rosshm.db.sql import sql
 
 __all__ = ['DBTable']
 
