@@ -8,6 +8,6 @@ IntegrityError = sqlite3.IntegrityError
 
 def connect(cfg):
 	fn = cfg.get('name')
-	conn = sqlite3.connect(fn)
+	conn = sqlite3.connect(f"file:{fn}?cache=shared", uri = True)
 	conn.row_factory = sqlite3.Row
 	return conn
