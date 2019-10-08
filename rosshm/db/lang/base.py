@@ -10,3 +10,6 @@ class LangBase(object):
 
 	def valfmt(self, typ):
 		return f"{self.fmt}"
+
+	def tableOptions(self):
+		return ''

@@ -15,7 +15,11 @@ def create(name, fields):
 		typ = d[0]
 		args = d[1]
 		fl.append(_mkfield(f, typ, args))
-	s += " (%s);" % ', '.join(fl)
+	s += " (%s)" % ', '.join(fl)
+	opts = lang.tableOptions()
+	if opts != '':
+		s += f" {opts}"
+	s += ";"
 	log.debug(s)
 	return s
 

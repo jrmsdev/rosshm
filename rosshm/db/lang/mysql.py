@@ -9,3 +9,6 @@ class MySQLLang(LangBase):
 
 	def primaryKey(self, name = 'pk'):
 		return f"{name} INT PRIMARY KEY AUTO_INCREMENT"
+
+	def tableOptions(self):
+		return 'CHARACTER SET utf8 COLLATE utf8_bin'
