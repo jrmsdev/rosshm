@@ -1,7 +1,7 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from os import environ, path, unlink
+from os import environ, path, unlink, getenv
 from unittest.mock import Mock
 
 # cleanup build/dist files
@@ -21,7 +21,7 @@ for k, v in _osenv.items():
 
 # config testing logger
 import rosshm.log
-rosshm.log.init('debug')
+rosshm.log.init(getenv('ROSSHMTEST_LOG', 'off'))
 rosshm.log.init = Mock()
 
 # export fixtures
