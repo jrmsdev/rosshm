@@ -13,6 +13,7 @@ import rosshm.wapp.wapp
 
 class _bup:
 	Bottle = bottle.Bottle
+	bottle_redirect = bottle.redirect
 
 @contextmanager
 def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
@@ -23,6 +24,8 @@ def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
 	finally:
 		del rosshm.wapp.wapp.bottle.Bottle
 		rosshm.wapp.wapp.bottle.Bottle = _bup.Bottle
+		del bottle.redirect
+		bottle.redirect = _bup.bottle_redirect
 
 def _mock(config, dbconn):
 	ctx = Mock()
@@ -31,6 +34,8 @@ def _mock(config, dbconn):
 	rosshm.wapp.wapp.bottle.Bottle = ctx.Bottle
 	rosshm.wapp.wapp.bottle.Bottle.return_value = Mock()
 	ctx.wapp = rosshm.wapp.wapp.init()
+	bottle.redirect = ctx.redirect
+	bottle.redirect.return_value = Mock()
 	return ctx
 
 @contextmanager
