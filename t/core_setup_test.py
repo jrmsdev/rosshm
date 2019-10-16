@@ -31,3 +31,17 @@ def test_no_status(testing_wapp):
 		assert isinstance(d, dict)
 		err = d['error']
 		assert err == 'no such table: rosshm_status'
+
+def test_db_create(testing_wapp):
+	with testing_wapp('core') as ctx:
+		d = setup.dbCreate()
+		assert isinstance(d, dict)
+		assert d == {'db': {'config': '', 'driver': 'sqlite', 'name': ':memory:'}}
+
+def test_db_create_POST(testing_wapp):
+	with testing_wapp('core') as ctx:
+		req = ctx.request
+		req.method = 'POST'
+		d = setup.dbCreate(req = req)
+		assert isinstance(d, dict)
+		assert d == {'db': {'config': '', 'driver': 'sqlite', 'name': ':memory:'}}

@@ -43,15 +43,16 @@ def index():
 	return _dbstatus()
 
 @bottle.view('core/setup/db/create.html')
-def dbCreate():
+def dbCreate(req = None):
 	"""create database"""
 	log.debug('db create')
 	dbstat = _dbstatus()
 	if dbstat['error'] is None:
 		# database is ok?
 		return {'error': 'database already created?', 'db': config.database()}
+	if req is None:
+		req = bottle.request
 	rv = {}
-	req = bottle.request
 	if req.method == 'POST':
 		log.debug('db create action')
 		try:
