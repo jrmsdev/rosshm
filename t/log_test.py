@@ -81,3 +81,12 @@ def test_msg(testing_log):
 		log.msg('testing')
 	msg = log.outs.read()
 	assert msg == 'testing\n'
+
+def test_dummy(testing_log):
+	with testing_log() as log:
+		l = log._dummyLogger()
+		l.debug('testing')
+		l.error('testing')
+		l.warn('testing')
+		l.info('testing')
+		l.msg('testing')

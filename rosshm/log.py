@@ -124,7 +124,7 @@ class _sysLogger(object):
 
 class _dummyLogger(object):
 
-	def debug(self, msg, depth = None, tag = None):
+	def debug(self, msg):
 		pass
 
 	def error(self, msg):
