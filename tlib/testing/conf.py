@@ -27,6 +27,7 @@ __all__ = [
 	'testing_config',
 	'testing_db',
 	'testing_log',
+	'testing_wapp',
 ]
 
 from testing.cmd_ctx import cmd_ctx
@@ -52,3 +53,9 @@ from testing.log_ctx import log_ctx
 @pytest.fixture
 def testing_log():
 	return log_ctx
+
+from testing.wapp_ctx import wapp_ctx
+
+@pytest.fixture
+def testing_wapp():
+	return wapp_ctx
