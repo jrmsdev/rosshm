@@ -28,12 +28,6 @@ class _colorFmt(object):
 	info = lambda self, msg: _blue + msg + _reset
 	msg = lambda self, msg: _green + msg + _reset
 
-def _setColored(enable):
-	global _fmt
-	if enable:
-		_fmt = None
-		_fmt = _colorFmt()
-
 # debug file info
 
 _idx = __file__.find('log.py')
@@ -154,13 +148,18 @@ _curlevel = None
 __all__ = ['init', 'levels', 'defaultLevel', 'curLevel', 'debugEnabled',
 	'debug', 'error', 'warn', 'info', 'msg']
 
-def init(level):
+def init(level, colored = None):
+	global _fmt
 	global _logger
 	global _curlevel
-	colored = sys.stdout.isatty() and sys.stderr.isatty()
-	_setColored(colored)
+	if colored is None:
+		colored = sys.stdout.isatty() and sys.stderr.isatty()
+	if colored:
+		_fmt = None
+		_fmt = _colorFmt()
 	_logger = None
 	_logger = _sysLogger(level)
+	_curlevel = None
 	_curlevel = level
 
 def levels():

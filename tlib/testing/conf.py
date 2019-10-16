@@ -3,8 +3,7 @@
 
 import pytest
 
-from os import environ, path, unlink, getenv
-from unittest.mock import Mock
+from os import environ, path, unlink
 
 # cleanup build/dist files
 for fn in ('_version.py', '_version_build.py'):
@@ -20,13 +19,6 @@ _osenv = {
 for k, v in _osenv.items():
 	environ.setdefault(k, v)
 	environ[k] = v
-
-# config testing logger
-import rosshm.log
-rosshm.log.init(getenv('ROSSHMTEST_LOG', 'off'))
-init_orig = rosshm.log.init
-rosshm.log.init = Mock()
-rosshm.log.init_orig = init_orig
 
 # export fixtures
 

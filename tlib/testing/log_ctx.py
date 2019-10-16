@@ -2,22 +2,32 @@
 # See LICENSE file.
 
 from contextlib import contextmanager
+from os import getenv
 from unittest.mock import Mock
 
-from rosshm import log
+import rosshm.log
+
+rosshm.log.init(getenv('ROSSHMTEST_LOG', 'off'))
+rosshm.log.init = Mock()
+
+_curlevel = rosshm.log._curlevel
+_logger = rosshm.log._logger
+_fmt = rosshm.log._fmt
 
 @contextmanager
-def log_ctx(level = 'off'):
-	_curlevel = log._curlevel
-	_logger = log._logger
-	_fmt = log._fmt
+def log_ctx(level = 'off', colored = False):
 	try:
-		log.init_orig(level)
-		yield log
+		if colored:
+			rosshm.log._fmt = rosshm.log._colorFmt()
+		else:
+			rosshm.log._fmt = rosshm.log._txtFmt()
+		rosshm.log._logger = rosshm.log._sysLogger(level)
+		rosshm.log._curlevel = level
+		yield rosshm.log
 	finally:
-		del log._curlevel
-		log._curlevel = _curlevel
-		del log._logger
-		log._logger = _logger
-		del log._fmt
-		log._fmt = _fmt
+		del rosshm.log._curlevel
+		rosshm.log._curlevel = _curlevel
+		del rosshm.log._logger
+		rosshm.log._logger = _logger
+		del rosshm.log._fmt
+		rosshm.log._fmt = _fmt
