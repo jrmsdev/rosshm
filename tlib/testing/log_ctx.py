@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from contextlib import contextmanager
+from io import StringIO
 from os import getenv
 from unittest.mock import Mock
 
@@ -21,7 +22,10 @@ def log_ctx(level = 'off', colored = False):
 			rosshm.log._fmt = rosshm.log._colorFmt()
 		else:
 			rosshm.log._fmt = rosshm.log._txtFmt()
-		rosshm.log._logger = rosshm.log._sysLogger(level)
+		if hasattr(rosshm.log, 'outs'):
+			del rosshm.log.outs
+		rosshm.log.outs = StringIO()
+		rosshm.log._logger = rosshm.log._sysLogger(level, outs = rosshm.log.outs)
 		rosshm.log._curlevel = level
 		yield rosshm.log
 	finally:
@@ -31,3 +35,4 @@ def log_ctx(level = 'off', colored = False):
 		rosshm.log._logger = _logger
 		del rosshm.log._fmt
 		rosshm.log._fmt = _fmt
+		rosshm.log.outs.seek(0, 0)

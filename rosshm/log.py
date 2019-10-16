@@ -148,7 +148,7 @@ _curlevel = None
 __all__ = ['init', 'levels', 'defaultLevel', 'curLevel', 'debugEnabled',
 	'debug', 'error', 'warn', 'info', 'msg']
 
-def init(level, colored = None):
+def init(level, colored = None, outs = None):
 	global _fmt
 	global _logger
 	global _curlevel
@@ -158,7 +158,7 @@ def init(level, colored = None):
 		_fmt = None
 		_fmt = _colorFmt()
 	_logger = None
-	_logger = _sysLogger(level)
+	_logger = _sysLogger(level, outs = outs)
 	_curlevel = None
 	_curlevel = level
 
