@@ -46,10 +46,14 @@ def init(cfgfn = None):
 	if config.getbool('core.enable'):
 		log.debug('core init')
 		coreok = core.init(config, wapp)
+	else:
+		log.warn('core disabled')
 
 	log.debug(f"coreok {coreok}")
 	if coreok and config.getbool('web.enable'):
 		log.debug('web init')
 		web.init(config, wapp)
+	else:
+		log.warn('web disabled')
 
 	return wapp
