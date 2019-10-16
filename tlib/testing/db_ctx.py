@@ -1,7 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-import pytest
 from contextlib import contextmanager
 from unittest.mock import Mock
 
@@ -11,7 +10,7 @@ from rosshm.db.table import DBTable
 from testing.config_ctx import config_ctx
 from testing.db.schema import DBTesting
 
-__all__ = ['testing_db', 'db_ctx', 'testing_schema']
+__all__ = ['db_ctx']
 
 @contextmanager
 def db_ctx(create = True, db_t = False, close = True):
@@ -33,7 +32,3 @@ def db_ctx(create = True, db_t = False, close = True):
 				conn.close()
 				del conn
 				conn = None
-
-@pytest.fixture
-def testing_db():
-	return db_ctx

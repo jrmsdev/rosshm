@@ -1,13 +1,12 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-import pytest
 from contextlib import contextmanager
 
 from rosshm import config
 from testing import tdata
 
-__all__ = ['testing_config', 'config_ctx']
+__all__ = ['config_ctx']
 
 @contextmanager
 def config_ctx(fn = 'rosshm.ini', init = True):
@@ -25,7 +24,3 @@ def config_ctx(fn = 'rosshm.ini', init = True):
 		config._cfg = config._new()
 		del config._cfgfn
 		config._cfgfn = None
-
-@pytest.fixture
-def testing_config():
-	return config_ctx

@@ -1,14 +1,13 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-import pytest
 from contextlib import contextmanager
 from unittest.mock import Mock
 
 from rosshm.cmd import main as cmd_main
 from testing.config_ctx import config_ctx
 
-__all__ = ['testing_cmd', 'cmd_ctx']
+__all__ = ['cmd_ctx']
 
 @contextmanager
 def cmd_ctx():
@@ -27,7 +26,3 @@ def cmd_ctx():
 			cmd_main.proc = proc
 			del cmd_main.wapp
 			cmd_main.wapp = wapp
-
-@pytest.fixture
-def testing_cmd():
-	return cmd_ctx

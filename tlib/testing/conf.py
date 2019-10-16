@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
+import pytest
+
 from os import environ, path, unlink, getenv
 from unittest.mock import Mock
 
@@ -25,12 +27,34 @@ rosshm.log.init(getenv('ROSSHMTEST_LOG', 'off'))
 rosshm.log.init = Mock()
 
 # export fixtures
+
 __all__ = [
 	'testing_cmd',
 	'testing_config',
 	'testing_db',
+	'testing_log',
 ]
 
-from testing.cmd_ctx    import testing_cmd
-from testing.config_ctx import testing_config
-from testing.db_ctx     import testing_db
+from testing.cmd_ctx import cmd_ctx
+
+@pytest.fixture
+def testing_cmd():
+	return cmd_ctx
+
+from testing.config_ctx import config_ctx
+
+@pytest.fixture
+def testing_config():
+	return config_ctx
+
+from testing.db_ctx import db_ctx
+
+@pytest.fixture
+def testing_db():
+	return db_ctx
+
+from testing.log_ctx import log_ctx
+
+@pytest.fixture
+def testing_log():
+	return log_ctx
