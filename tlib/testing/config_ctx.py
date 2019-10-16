@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from contextlib import contextmanager
+from unittest.mock import Mock
 
 from rosshm import config
 from testing import tdata
@@ -16,6 +17,8 @@ def config_ctx(fn = 'rosshm.ini', init = True):
 			config.init(fn = fn)
 			assert config._cfgfn == fn, \
 				f"config file not read: got: {config._cfgfn} - expect: {fn}"
+			config.init_real = config.init
+			config.init = Mock()
 		else:
 			config._cfgfn = fn
 		yield config
@@ -24,3 +27,6 @@ def config_ctx(fn = 'rosshm.ini', init = True):
 		config._cfg = config._new()
 		del config._cfgfn
 		config._cfgfn = None
+		del config.init
+		config.init = config.init_real
+		del config.init_real
