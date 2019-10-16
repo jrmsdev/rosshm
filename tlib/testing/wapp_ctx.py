@@ -33,16 +33,23 @@ class WappCtx(object):
 		assert req.path == path
 		return req
 
+	@contextmanager
+	def redirect(self, location, code = 302):
+		try:
+			yield
+		except bottle.HTTPResponse as resp:
+			loc = resp.headers.get('location', 'NOTSET')
+			print('RESP:', resp.status_code, loc)
+			assert resp.status_code == code
+			assert loc.endswith(location)
+
 @contextmanager
 def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
 	cfgfn = path.join(profile, cfgfn)
-	try:
-		with config_ctx(fn = cfgfn) as config, _dbctx(db, cfgfn) as dbconn:
-			ctx = WappCtx(config, dbconn)
-			ctx.wapp = rosshm.wapp.wapp.init()
-			yield ctx
-	finally:
-		pass
+	with config_ctx(fn = cfgfn) as config, _dbctx(db, cfgfn) as dbconn:
+		ctx = WappCtx(config, dbconn)
+		ctx.wapp = rosshm.wapp.wapp.init()
+		yield ctx
 
 @contextmanager
 def _nullctx():

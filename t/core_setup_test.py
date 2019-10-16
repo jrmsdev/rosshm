@@ -7,8 +7,8 @@ from rosshm.core.view import setup
 
 def test_redirect(testing_wapp):
 	with testing_wapp('core') as ctx:
-		setup.redirect()
-		bottle.redirect.assert_called_with('/_/setup')
+		with ctx.redirect('/_/setup'):
+			setup.redirect()
 
 def test_index(testing_wapp):
 	with testing_wapp('core', db = True) as ctx:
@@ -41,6 +41,5 @@ def test_db_create(testing_wapp):
 def test_db_create_POST(testing_wapp):
 	with testing_wapp('core') as ctx:
 		req = ctx.request(method = 'POST')
-		d = setup.dbCreate(req = req)
-		assert isinstance(d, dict)
-		assert d == {'db': {'config': '', 'driver': 'sqlite', 'name': ':memory:'}}
+		with ctx.redirect('/_/setup'):
+			setup.dbCreate(req = req)

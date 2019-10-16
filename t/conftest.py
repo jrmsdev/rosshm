@@ -1,8 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from unittest.mock import Mock
 import bottle
+from unittest.mock import Mock
 
 def _mock_decorator(*args, **kwargs):
 	def wrapper(func):
@@ -15,7 +15,6 @@ _bottle = Mock()
 
 bottle.Bottle = _bottle.Bottle
 bottle.Bottle.return_value = _bottle.wapp
-bottle.redirect = _bottle.redirect
 bottle.view = _bottle.view
 bottle.view.side_effect = _mock_decorator
 
