@@ -21,7 +21,7 @@ def connect(cfg):
 		uri = f"file:{memdb}?mode=memory&cache=shared"
 	else:
 		uri = f"file:{name}?cache=shared"
-	log.debug(f"connection uri {uri}")
+	log.debug(f"uri {uri}")
 	conn = sqlite3.connect(uri, uri = True)
 	conn.row_factory = sqlite3.Row
 	return conn

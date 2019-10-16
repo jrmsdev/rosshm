@@ -11,7 +11,16 @@ def test_redirect(testing_wapp):
 		bottle.redirect.assert_called_with('/_/setup')
 
 def test_index(testing_wapp):
-	with testing_wapp('core') as ctx:
+	with testing_wapp('core', db = True) as ctx:
 		d = setup.index()
 		bottle.view.assert_any_call('core/setup/index.html')
 		assert isinstance(d, dict)
+		assert d == {
+			'db': {
+				'config': '',
+				'driver': 'sqlite',
+				'name': ':memory:',
+			},
+			'error': None,
+			'status': {'status': 'ok'},
+		}
