@@ -1,6 +1,8 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
+from pytest import raises
+
 def test_log(testing_log):
 	with testing_log() as log:
 		assert log.curLevel() == 'off'
@@ -21,6 +23,11 @@ def test_levels(testing_log):
 		assert log.defaultLevel() == 'warn'
 		assert sorted(log.levels()) == ['debug', 'error', 'info', 'off', 'quiet', 'warn']
 		assert not log.debugEnabled()
+
+def test_invalid_level(testing_log):
+	with testing_log() as log:
+		with raises(RuntimeError, match = 'invalid log level: testing'):
+			log._sysLogger('testing')
 
 def test_debug(testing_log):
 	with testing_log('debug') as log:
