@@ -13,5 +13,5 @@ def test_redirect(testing_wapp):
 def test_index(testing_wapp):
 	with testing_wapp('core') as ctx:
 		d = setup.index()
-		# ~ assert isinstance(d, dict)
 		bottle.view.assert_any_call('core/setup/db/create.html')
+		assert isinstance(d, dict)
