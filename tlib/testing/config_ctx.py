@@ -27,6 +27,7 @@ def config_ctx(fn = 'rosshm.ini', init = True):
 		config._cfg = config._new()
 		del config._cfgfn
 		config._cfgfn = None
-		del config.init
-		config.init = config.init_real
-		del config.init_real
+		if init:
+			del config.init
+			config.init = config.init_real
+			del config.init_real
