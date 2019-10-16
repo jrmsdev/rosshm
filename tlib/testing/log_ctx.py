@@ -8,6 +8,7 @@ from unittest.mock import Mock
 
 import rosshm.log
 
+rosshm.log.init_orig = rosshm.log.init
 rosshm.log.init(getenv('ROSSHMTEST_LOG', 'off'))
 rosshm.log.init = Mock()
 

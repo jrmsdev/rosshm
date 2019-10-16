@@ -16,6 +16,11 @@ def test_fmt(testing_log):
 	with testing_log(colored = False) as log:
 		assert isinstance(log._fmt, log._txtFmt)
 
+def test_colored(testing_log):
+	with testing_log() as log:
+		log.init_orig('off', colored = True)
+		assert isinstance(log._fmt, log._colorFmt)
+
 def test_levels(testing_log):
 	with testing_log() as log:
 		assert log.curLevel() == 'off'
