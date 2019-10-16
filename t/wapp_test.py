@@ -4,4 +4,3 @@
 def test_init(testing_wapp):
 	with testing_wapp() as ctx:
 		ctx.wapp.init()
-		assert False

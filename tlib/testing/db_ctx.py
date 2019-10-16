@@ -15,9 +15,9 @@ __all__ = ['db_ctx']
 @contextmanager
 def db_ctx(create = True, db_t = False, close = True):
 	conn = None
-	with config_ctx() as cfg:
-		cfg.set('rosshm', 'db.driver', 'sqlite')
-		cfg.set('rosshm', 'db.name', ':memory:')
+	with config_ctx() as config:
+		config._cfg.set('rosshm', 'db.driver', 'sqlite')
+		config._cfg.set('rosshm', 'db.name', ':memory:')
 		if create:
 			dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
 			conn = db.connect(dbcfg)
@@ -31,4 +31,3 @@ def db_ctx(create = True, db_t = False, close = True):
 			if close and conn is not None:
 				conn.close()
 				del conn
-				conn = None

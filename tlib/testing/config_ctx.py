@@ -18,7 +18,7 @@ def config_ctx(fn = 'rosshm.ini', init = True):
 				f"config file not read: got: {config._cfgfn} - expect: {fn}"
 		else:
 			config._cfgfn = fn
-		yield config._cfg
+		yield config
 	finally:
 		del config._cfg
 		config._cfg = config._new()
