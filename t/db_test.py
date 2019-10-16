@@ -64,3 +64,8 @@ def test_checkdb_no_status(testing_db):
 		finally:
 			del check.db.status
 			check.db.status = status
+
+def test_invalid_driver():
+	cfg = {'driver': 'nodrv', 'name': 'testing', 'config': ''}
+	with raises(RuntimeError, match = 'invalid database driver: nodrv'):
+		db.connect(cfg)
