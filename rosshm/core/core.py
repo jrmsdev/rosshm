@@ -8,16 +8,19 @@ from rosshm.wapp.plugin.db import DBPlugin
 
 __all__ = ['init']
 
+_plugins = None
+
 def init(config, wapp):
 	"""initialize webapp core package
 	check database or start setup handler"""
 	log.debug(f"init {config.filename()}")
 	debug = config.getbool('debug')
 	if checkdb(config):
+		global _plugins
 		dbcfg = config.database()
 		log.debug(f"db plugin {dbcfg}")
-		plugins = [DBPlugin(dbcfg, debug = debug)]
-		_views(config, wapp, plugins)
+		_plugins = [DBPlugin(dbcfg, debug = debug)]
+		_views(config, wapp, _plugins)
 		return True
 	else:
 		_setup(config, wapp)
