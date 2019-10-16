@@ -29,7 +29,7 @@ def test_extensions():
 
 def test_notfound():
 	with static_ctx() as ctx:
-		resp = ctx.serve('testing.txt')
+		resp = ctx.serve('static.py')
 		assert isinstance(resp, bottle.HTTPError)
 		assert resp.status_code == 404
 
