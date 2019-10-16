@@ -24,3 +24,10 @@ def test_index(testing_wapp):
 			'error': None,
 			'status': {'status': 'ok'},
 		}
+
+def test_no_status(testing_wapp):
+	with testing_wapp('core') as ctx:
+		d = setup.index()
+		assert isinstance(d, dict)
+		err = d['error']
+		assert err == 'no such table: rosshm_status'
