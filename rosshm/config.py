@@ -68,9 +68,8 @@ def database():
 		'name': name,
 		'config': cfgfn,
 	})
-	if drv == 'sqlite':
-		if name != ':memory:':
-			cfg['name'] = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
+	if drv == 'sqlite' and not name.startswith(':memory:'):
+		cfg['name'] = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
 	return cfg
 
 def get(option, **kwargs):

@@ -7,6 +7,8 @@ from os import path
 from rosshm import log, config
 from rosshm.db import db
 
+__all__ = ['redirect', 'index', 'dbCreate']
+
 def redirect(rpath = ''):
 	"""redirect all non setup requests"""
 	log.debug('redir')

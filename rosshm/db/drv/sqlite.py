@@ -13,7 +13,15 @@ IntegrityError = sqlite3.IntegrityError
 def connect(cfg):
 	log.debug('connect')
 	sql.setLang(SqliteLang())
-	fn = cfg.get('name')
-	conn = sqlite3.connect(f"file:{fn}?cache=shared", uri = True)
+	name = cfg.get('name')
+	if name.startswith(':memory:'):
+		memdb = name.split(':')[2].strip()
+		if memdb == '':
+			memdb = 'rosshmdb'
+		uri = f"file:{memdb}?mode=memory&cache=shared"
+	else:
+		uri = f"file:{name}?cache=shared"
+	log.debug(f"connection uri {uri}")
+	conn = sqlite3.connect(uri, uri = True)
 	conn.row_factory = sqlite3.Row
 	return conn
