@@ -1,8 +1,6 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-import bottle
-
 from contextlib import contextmanager
 from unittest.mock import Mock
 
@@ -30,7 +28,7 @@ def test_extensions():
 def test_notfound():
 	with static_ctx() as ctx:
 		resp = ctx.serve('static.py')
-		assert isinstance(resp, bottle.HTTPError)
+		assert isinstance(resp, static.bottle.HTTPError)
 		assert resp.status_code == 404
 
 def test_serve():

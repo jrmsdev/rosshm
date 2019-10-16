@@ -8,12 +8,7 @@ from unittest.mock import Mock
 from testing.config_ctx import config_ctx
 from testing.db_ctx import db_ctx
 
-import bottle
 import rosshm.wapp.wapp
-
-class _bup:
-	Bottle = bottle.Bottle
-	bottle_redirect = bottle.redirect
 
 @contextmanager
 def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
@@ -22,20 +17,13 @@ def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
 		with config_ctx(fn = cfgfn) as config, _dbctx(db, cfgfn) as dbconn:
 			yield _mock(config, dbconn)
 	finally:
-		del rosshm.wapp.wapp.bottle.Bottle
-		rosshm.wapp.wapp.bottle.Bottle = _bup.Bottle
-		del bottle.redirect
-		bottle.redirect = _bup.bottle_redirect
+		pass
 
 def _mock(config, dbconn):
 	ctx = Mock()
 	ctx.config = config
 	ctx.dbconn = dbconn
-	rosshm.wapp.wapp.bottle.Bottle = ctx.Bottle
-	rosshm.wapp.wapp.bottle.Bottle.return_value = Mock()
 	ctx.wapp = rosshm.wapp.wapp.init()
-	bottle.redirect = ctx.redirect
-	bottle.redirect.return_value = Mock()
 	return ctx
 
 @contextmanager

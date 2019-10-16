@@ -1,6 +1,16 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
+from unittest.mock import Mock
+import bottle
+
+_bottle = Mock()
+
+bottle.Bottle = _bottle.Bottle
+bottle.Bottle.return_value = _bottle.wapp
+bottle.redirect = _bottle.redirect
+bottle.view = _bottle.view
+
 import sys
 from os import path
 
