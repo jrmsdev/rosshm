@@ -24,7 +24,9 @@ for k, v in _osenv.items():
 # config testing logger
 import rosshm.log
 rosshm.log.init(getenv('ROSSHMTEST_LOG', 'off'))
+init_orig = rosshm.log.init
 rosshm.log.init = Mock()
+rosshm.log.init_orig = init_orig
 
 # export fixtures
 

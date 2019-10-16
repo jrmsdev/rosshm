@@ -6,13 +6,12 @@ from os import path, getpid
 
 # colors
 
-_colored = sys.stdout.isatty() and sys.stderr.isatty()
-
-_colDebug = lambda msg: 'D: ' + msg
-_colWarn = lambda msg: 'W: ' + msg
-_colError = lambda msg: 'E: ' + msg
-_colInfo = lambda msg: 'I: ' + msg
-_colMsg = lambda msg: msg
+class _txtFmt(object):
+	debug = lambda self, msg: 'D: ' + msg
+	warn = lambda self, msg: 'W: ' + msg
+	error = lambda self, msg: 'E: ' + msg
+	info = lambda self, msg: 'I: ' + msg
+	msg = lambda self, msg: msg
 
 _cyan = '\033[0;36m'
 _red = '\033[0;31m'
@@ -22,18 +21,18 @@ _green = '\033[0;32m'
 _grey = '\033[1;30m'
 _reset = '\033[0m'
 
-def _setColored():
-	global _colDebug
-	global _colWarn
-	global _colError
-	global _colInfo
-	global _colMsg
-	if _colored:
-		_colDebug = lambda msg: _grey + msg + _reset
-		_colError = lambda msg: _red + msg + _reset
-		_colWarn = lambda msg: _yellow + msg + _reset
-		_colInfo = lambda msg: _blue + msg + _reset
-		_colMsg = lambda msg: _green + msg + _reset
+class _colorFmt(object):
+	debug = lambda self, msg: _grey + msg + _reset
+	error = lambda self, msg: _red + msg + _reset
+	warn = lambda self, msg: _yellow + msg + _reset
+	info = lambda self, msg: _blue + msg + _reset
+	msg = lambda self, msg: _green + msg + _reset
+
+def _setColored(enable):
+	global _fmt
+	if enable:
+		_fmt = None
+		_fmt = _colorFmt()
 
 # debug file info
 
@@ -114,20 +113,20 @@ class _sysLogger(object):
 
 	def _debug(self, msg):
 		caller = _getCaller(self._depth)
-		print(_colDebug("[%d] %s: %s" % (self._pid, caller, msg)),
+		print(_fmt.debug("[%d] %s: %s" % (self._pid, caller, msg)),
 			file = self._errs, flush = self._flush)
 
 	def _error(self, msg):
-		print(_colError(msg), file = self._errs, flush = self._flush)
+		print(_fmt.error(msg), file = self._errs, flush = self._flush)
 
 	def _warn(self, msg):
-		print(_colWarn(msg), file = self._errs, flush = self._flush)
+		print(_fmt.warn(msg), file = self._errs, flush = self._flush)
 
 	def _info(self, msg):
-		print(_colInfo(msg), file = self._outs, flush = self._flush)
+		print(_fmt.info(msg), file = self._outs, flush = self._flush)
 
 	def _msg(self, msg):
-		print(_colMsg(msg), file = self._outs, flush = self._flush)
+		print(_fmt.msg(msg), file = self._outs, flush = self._flush)
 
 class _dummyLogger(object):
 
@@ -146,6 +145,7 @@ class _dummyLogger(object):
 	def msg(self, msg):
 		pass
 
+_fmt = _txtFmt()
 _logger = _dummyLogger()
 _curlevel = None
 
@@ -157,7 +157,9 @@ __all__ = ['init', 'levels', 'defaultLevel', 'curLevel', 'debugEnabled',
 def init(level):
 	global _logger
 	global _curlevel
-	_setColored()
+	colored = sys.stdout.isatty() and sys.stderr.isatty()
+	_setColored(colored)
+	_logger = None
 	_logger = _sysLogger(level)
 	_curlevel = level
 
