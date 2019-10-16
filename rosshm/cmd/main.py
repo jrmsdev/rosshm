@@ -13,6 +13,7 @@ from rosshm.wapp import wapp
 __all__ = ['main']
 
 def main(argv = None):
+	"""main command entrypoint"""
 	args = flags.parse(argv)
 	cfgfn = path.abspath(args.config)
 	if args.debug:
@@ -21,6 +22,7 @@ def main(argv = None):
 		return _uwsgi(args, cfgfn)
 
 def _debugMode(args, cfgfn):
+	"""start webapp in debug mode - use bottle server"""
 	app = wapp.init(cfgfn = cfgfn)
 	app.run(host = '127.0.0.1', port = int(args.port), quiet = False,
 		reloader = True, debug = True)
@@ -28,12 +30,14 @@ def _debugMode(args, cfgfn):
 	return 0
 
 def _gethome():
+	"""get rosshm home/exec_prefix/virtualenv directory path"""
 	h = getenv('ROSSHM_HOME', '')
 	if h == '': # pragma: no cover
 		h = sys.exec_prefix
 	return path.abspath(h)
 
 def _uwsgi(args, cfgfn):
+	"""start webapp using uwsgi command line tool"""
 	rc = 0
 	inifn = path.abspath(libdir / 'wapp' / 'uwsgi.ini')
 

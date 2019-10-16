@@ -15,6 +15,7 @@ _serveExtension = {
 }
 
 def serve(filename):
+	"""serve static files"""
 	filename = path.normpath(filename)
 	ext = path.splitext(filename)[1]
 	if ext == '' or filename.startswith('.') or \

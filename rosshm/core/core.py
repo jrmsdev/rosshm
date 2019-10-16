@@ -9,6 +9,8 @@ from rosshm.wapp.plugin.db import DBPlugin
 __all__ = ['init']
 
 def init(config, wapp):
+	"""initialize webapp core package
+	check database or start setup handler"""
 	log.debug(f"init {config.filename()}")
 	debug = config.getbool('debug')
 	if checkdb(config):
@@ -22,6 +24,7 @@ def init(config, wapp):
 		return False
 
 def _setup(config, wapp):
+	"""initialize setup handlers"""
 	log.debug('init setup')
 	wapp.route('/', 'GET', setup.redirect, name = 'setup.redir')
 	wapp.route('/_/setup', 'GET', setup.index, name = 'setup')
@@ -30,6 +33,7 @@ def _setup(config, wapp):
 	wapp.route('/<rpath:path>', 'GET', setup.redirect, name = 'setup.redirall')
 
 def _views(config, wapp, plugins):
+	"""initialize core api handlers"""
 	log.debug('init views')
 	wapp.route('/_/', 'GET', status.view, name = 'core.status',
 		apply = plugins)

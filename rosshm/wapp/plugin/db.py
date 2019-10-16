@@ -6,7 +6,10 @@ import bottle
 from rosshm import log
 from rosshm.db import db
 
+__all__ = ['DBPlugin']
+
 class DBPlugin(object):
+	"""manage database connection"""
 	name = 'rosshm.db'
 	api = 2
 

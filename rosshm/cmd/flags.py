@@ -12,6 +12,7 @@ __all__ = ['parse']
 _desc = 'ross, the house master'
 
 def _new():
+	"""create parser and add arguments"""
 	cfgfn = path.join(path.expanduser('~'), '.config', 'rosshm.ini')
 	p = argparse.ArgumentParser(prog = 'rosshm', description = _desc)
 	p.add_argument('-V', '--version', help = 'show version and exit',
@@ -35,6 +36,7 @@ def _new():
 	return p
 
 def parse(argv):
+	"""parse command line arguments"""
 	p = _new()
 	args = p.parse_args(args = argv)
 	if args.debug:

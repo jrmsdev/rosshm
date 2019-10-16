@@ -7,6 +7,7 @@ from os import getenv, path
 __all__ = ['init', 'filename', 'get', 'getbool']
 
 def _new():
+	"""create a new configuration parser"""
 	return ConfigParser(
 	delimiters = ('=',),
 	comment_prefixes = ('#', ';'),
@@ -33,6 +34,7 @@ if _cfgfn == '':
 	_cfgfn = path.join(path.expanduser('~'), '.config', 'rosshm.ini')
 
 def init(fn = None):
+	"""initialize configuration from filename"""
 	global _cfgfn
 	if fn is None:
 		fn = _cfgfn
@@ -45,10 +47,12 @@ def init(fn = None):
 		_cfg.add_section('rosshm')
 
 def filename():
+	"""return configuration read filename"""
 	global _cfgfn
 	return _cfgfn
 
 def database():
+	"""return an option:key dict with parsed database configuration"""
 	cfg = {}
 	for k, v in _cfg.items('rosshm'):
 		if k.startswith('db.'):
@@ -70,7 +74,9 @@ def database():
 	return cfg
 
 def get(option, **kwargs):
+	"""get option value (string)"""
 	return _cfg.get('rosshm', option, **kwargs)
 
 def getbool(option, **kwargs):
+	"""get option boolean value"""
 	return _cfg.getboolean('rosshm', option, **kwargs)

@@ -151,6 +151,9 @@ _curlevel = None
 
 # public methods
 
+__all__ = ['init', 'levels', 'defaultLevel', 'curLevel', 'debugEnabled',
+	'debug', 'error', 'warn', 'info', 'msg']
+
 def init(level):
 	global _logger
 	global _curlevel

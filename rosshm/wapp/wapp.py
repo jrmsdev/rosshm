@@ -14,6 +14,7 @@ from rosshm.web import web
 __all__ = ['init']
 
 def init(cfgfn = None):
+	"""initialize webapp"""
 	config.init(fn = cfgfn)
 
 	debug = config.getbool('debug')

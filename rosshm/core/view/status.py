@@ -5,6 +5,7 @@ from rosshm import log
 from rosshm.db.schema.status import DBStatus
 
 def view(db):
+	"""show core status info"""
 	log.debug('view')
 	s = DBStatus()
 	row = s.get(db, 'status', pk = 1)

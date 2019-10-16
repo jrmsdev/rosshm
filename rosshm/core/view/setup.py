@@ -7,25 +7,19 @@ from os import path
 from rosshm import log, config
 from rosshm.db import db
 
-#
-# redirect all non setup requests
-#
 def redirect(rpath = ''):
+	"""redirect all non setup requests"""
 	log.debug('redir')
 	bottle.redirect('/_/setup')
 
-#
-# get database connection
-#
 def _dbconn():
+	"""get database connection"""
 	dbcfg = config.database()
 	log.debug(f"dbcfg {dbcfg['driver']} {dbcfg['name']}")
 	return db.connect(dbcfg)
 
-#
-# get database status table info
-#
 def _dbstatus():
+	"""get database status table info"""
 	log.debug('db status')
 	status = {}
 	error = None
@@ -40,19 +34,15 @@ def _dbstatus():
 		error = str(err)
 	return {'error': error, 'status': status, 'db': config.database()}
 
-#
-# index view
-#
 @bottle.view('core/setup/index.html')
 def index():
+	"""index view"""
 	log.debug('view')
 	return _dbstatus()
 
-#
-# create database
-#
 @bottle.view('core/setup/db/create.html')
 def dbCreate():
+	"""create database"""
 	log.debug('db create')
 	dbstat = _dbstatus()
 	if dbstat['error'] is None:

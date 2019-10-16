@@ -8,9 +8,11 @@ from time import time
 from rosshm import log
 
 _birth = datetime(2019, 9, 21, 3, 5, 38, tzinfo = timezone.utc)
-# ~ _birth = _birth.strftime("%a, %d %b %Y %H:%M:%S %Z")
+
+__all__ = ['Plugin']
 
 class Plugin(object):
+	"""base response handler"""
 	name = 'rosshm.response'
 	api = 2
 
@@ -21,6 +23,8 @@ class Plugin(object):
 		log.debug(f"setup {self.name}")
 
 	def apply(self, callback, ctx):
+		"""set Cache-Control and security headers amongst other things for
+		all responses"""
 		log.debug(f"apply {ctx.name}")
 		def wrapper(*args, **kwargs):
 			log.debug(f"wrapper {ctx.name}")

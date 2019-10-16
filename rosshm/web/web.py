@@ -6,4 +6,5 @@ __all__ = ['init']
 from rosshm import log
 
 def init(config, wapp):
+	"""initialize web package"""
 	log.debug(f"init {config.filename()}")
