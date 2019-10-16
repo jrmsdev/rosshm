@@ -7,12 +7,13 @@ from rosshm.db.conn import DBConn
 from rosshm.db.schema.schema import DBSchema
 from rosshm.db.schema.status import DBStatus
 
-__all__ = ['Error', 'connect', 'status', 'create']
+__all__ = ['DatabaseError', 'IntegrityError', 'connect', 'status', 'create']
 
 DatabaseError = None
 IntegrityError = None
 
 def connect(cfg):
+	"""return connection to configured database"""
 	global DatabaseError
 	global IntegrityError
 	conn = None
@@ -32,10 +33,12 @@ def connect(cfg):
 	return DBConn(conn)
 
 def status(conn):
+	"""return database status table info"""
 	s = DBStatus()
 	return s.get(conn, 'status', pk = 1)
 
 def create(conn):
+	"""create database schema"""
 	meta = DBSchema()
 	# init schema tracking table first
 	log.debug(f"create tables {list(reg.DB.tables.keys())}")

@@ -20,6 +20,7 @@ class DBConn(object):
 		if self._cur is not None:
 			log.debug('close cursor')
 			self._cur.close()
+			self._cur = None
 		log.debug('close connection')
 		self._conn.close()
 		self._closed = True
@@ -37,7 +38,7 @@ class DBConn(object):
 		if self._cur is not None:
 			log.debug('close cursor')
 			self._cur.close()
-			del self._cur
+			self._cur = None
 		self._cur = self._conn.cursor()
 		self._cur.execute(op, param)
 		return self._cur

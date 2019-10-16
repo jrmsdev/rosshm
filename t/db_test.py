@@ -69,3 +69,13 @@ def test_invalid_driver():
 	cfg = {'driver': 'nodrv', 'name': 'testing', 'config': ''}
 	with raises(RuntimeError, match = 'invalid database driver: nodrv'):
 		db.connect(cfg)
+
+def test_conn_rollback(testing_db):
+	with testing_db() as conn:
+		conn.rollback()
+
+def test_del_close(testing_db):
+	with testing_db() as conn:
+		assert not conn._closed
+		conn.__del__()
+		assert conn._closed
