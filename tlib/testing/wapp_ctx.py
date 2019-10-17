@@ -15,12 +15,12 @@ import rosshm.wapp.wapp
 class WappCtx(object):
 	"""wapp context manager"""
 	config = None
-	dbconn = None
+	db = None
 	wapp = None
 
 	def __init__(self, config, dbconn):
 		self.config = config
-		self.dbconn = dbconn
+		self.db = dbconn
 
 	def request(self, method = 'GET', path = '/', qs = ''):
 		env = {
@@ -44,9 +44,9 @@ class WappCtx(object):
 			assert loc.endswith(location)
 
 @contextmanager
-def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
+def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False, dbcreate = True):
 	cfgfn = path.join(profile, cfgfn)
-	with config_ctx(fn = cfgfn) as config, _dbctx(db, cfgfn) as dbconn:
+	with config_ctx(fn = cfgfn) as config, _dbctx(db, cfgfn, dbcreate) as dbconn:
 		ctx = WappCtx(config, dbconn)
 		ctx.wapp = rosshm.wapp.wapp.init()
 		yield ctx
@@ -55,7 +55,7 @@ def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False):
 def _nullctx():
 	yield None
 
-def _dbctx(enable, cfgfn):
+def _dbctx(enable, cfgfn, create):
 	if enable:
-		return db_ctx(cfgfn = cfgfn, cfginit = False)
+		return db_ctx(cfgfn = cfgfn, cfginit = False, create = create)
 	return _nullctx()

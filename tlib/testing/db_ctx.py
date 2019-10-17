@@ -18,9 +18,9 @@ def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False, cl
 	with config_ctx(fn = cfgfn, init = cfginit) as config:
 		config._cfg.set('rosshm', 'db.driver', 'sqlite')
 		config._cfg.set('rosshm', 'db.name', ':memory:')
+		dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
+		conn = db.connect(dbcfg)
 		if create:
-			dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
-			conn = db.connect(dbcfg)
 			db.create(conn)
 			if db_t:
 				_t = DBTable(DBTesting())
