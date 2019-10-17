@@ -11,7 +11,7 @@ __all__ = ['checkdb']
 def checkdb(config, conn = None):
 	dbcfg = config.database()
 	log.debug(f"checkdb {dbcfg['driver']} {dbcfg['name']} {dbcfg['config']}")
-	if dbcfg.get('driver') == 'sqlite' and dbcfg.get('name') != ':memory:':
+	if dbcfg.get('driver') == 'sqlite' and not dbcfg.get('name').startswith(':memory:'):
 		dbfn = dbcfg.get('name')
 		if not path.isfile(dbfn):
 			makedirs(path.dirname(dbfn), mode = 0o750, exist_ok = True)

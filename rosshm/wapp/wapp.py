@@ -23,6 +23,7 @@ def init(cfgfn = None):
 	else:
 		log.init(config.get('log.level'))
 	log.debug(version.string('rosshm'))
+	log.debug(config.filename())
 
 	tpldir = path.abspath(libdir / 'tpl')
 	log.debug(f"templates path {tpldir}")
@@ -48,6 +49,7 @@ def init(cfgfn = None):
 		coreok = core.init(config, wapp)
 	else:
 		log.warn('core disabled')
+		coreok = True
 
 	log.debug(f"coreok {coreok}")
 	if coreok and config.getbool('web.enable'):

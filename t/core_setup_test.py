@@ -38,7 +38,7 @@ def test_db_create(testing_wapp):
 	with testing_wapp('core') as ctx:
 		d = setup.dbCreate()
 		assert isinstance(d, dict)
-		assert d == {'db': {'config': '', 'driver': 'sqlite', 'name': ':memory:'}}
+		assert d == {'db': {'config': '', 'driver': 'sqlite', 'name': ':memory:core_testdb'}}
 
 def test_db_create_POST(testing_wapp):
 	with testing_wapp('core') as ctx:
