@@ -28,6 +28,7 @@ __all__ = [
 	'testing_db',
 	'testing_log',
 	'testing_wapp',
+	'testing_wapp_plugin',
 ]
 
 from testing.cmd_ctx import cmd_ctx
@@ -59,3 +60,9 @@ from testing.wapp_ctx import wapp_ctx
 @pytest.fixture
 def testing_wapp():
 	return wapp_ctx
+
+from testing.wapp_plugin_ctx import wapp_plugin_ctx
+
+@pytest.fixture
+def testing_wapp_plugin():
+	return wapp_plugin_ctx
