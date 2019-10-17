@@ -43,6 +43,17 @@ class WappCtx(object):
 			assert resp.status_code == code
 			assert loc.endswith(location)
 
+	@contextmanager
+	def error(self, code, msg, err = None):
+		try:
+			yield
+		except bottle.HTTPError as resp:
+			print('ERROR:', resp.status_code, '-', resp.body, '-', resp.exception)
+			assert resp.status_code == code
+			assert resp.body == msg
+			if err is not None:
+				assert resp.exception == err
+
 @contextmanager
 def wapp_ctx(profile, cfgfn = 'rosshm.ini', db = False, dbcreate = True):
 	cfgfn = path.join(profile, cfgfn)

@@ -3,6 +3,7 @@
 
 from rosshm.wapp.plugin.db import DBPlugin
 from rosshm.db.conn import DBConn
+from rosshm.db.drv.sqlite import IntegrityError
 
 def _new(ctx):
 	debug = ctx.wapp.config.getbool('debug')
@@ -27,3 +28,11 @@ def test_apply(testing_wapp_plugin):
 		assert isinstance(d, dict)
 		assert d['tdata'] == 'testing'
 		assert isinstance(d['db'], DBConn)
+
+def test_db_integrity_error(testing_wapp_plugin):
+	with testing_wapp_plugin() as ctx:
+		p = _new(ctx)
+		err = IntegrityError('testing')
+		ctx.callback.side_effect = err
+		with ctx.wapp.error(500, 'database error', err = err):
+			p.apply(ctx.callback, ctx.route)()
