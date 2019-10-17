@@ -16,7 +16,7 @@ def test_config(testing_db):
 		assert cfg['driver'] == 'sqlite'
 		assert cfg['config'] == ''
 		assert cfg['name'] == ':memory:'
-		assert conn is None
+		assert conn is not None
 
 def test_create(testing_db):
 	with testing_db() as conn:
