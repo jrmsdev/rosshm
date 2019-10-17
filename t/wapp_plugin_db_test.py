@@ -1,9 +1,9 @@
 # Copyright (c) Jeremías Casteglione <jrmsdev@gmail.com>
 # See LICENSE file.
 
-from rosshm.wapp.plugin.db import DBPlugin
 from rosshm.db.conn import DBConn
 from rosshm.db.drv.sqlite import IntegrityError
+from rosshm.wapp.plugin.db import DBPlugin
 
 def _new(ctx):
 	debug = ctx.wapp.config.getbool('debug')
@@ -14,6 +14,8 @@ def test_setup(testing_wapp_plugin):
 	with testing_wapp_plugin() as ctx:
 		p = _new(ctx)
 		p.setup(ctx.wapp.wapp)
+		assert p.name == 'rosshm.db'
+		assert p.api == 2
 
 def _callback(db, *args, **kwargs):
 	tdata = kwargs.get('tdata', None)
