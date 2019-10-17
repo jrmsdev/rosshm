@@ -55,18 +55,22 @@ def dbCreate(req = None):
 	rv = {}
 	if req.method == 'POST':
 		log.debug('db create action')
+		conn = None
 		try:
 			conn = _dbconn()
 			rv = db.create(conn)
-			conn.close()
 			bottle.redirect('/_/setup')
-		except db.DatabaseError as err:
-			log.error(f"create database: {err}")
-			rv['error'] = str(err)
 		except db.IntegrityError as err:
 			log.error(f"create database: {err}")
 			rv['error'] = str(err)
-			log.debug('rollback')
-			conn.rollback()
+			if conn is not None:
+				log.debug('rollback')
+				conn.rollback()
+		except db.DatabaseError as err:
+			log.error(f"create database: {err}")
+			rv['error'] = str(err)
+		finally:
+			if conn is not None:
+				conn.close()
 	rv['db'] = config.database()
 	return rv
