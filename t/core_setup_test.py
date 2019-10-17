@@ -43,3 +43,12 @@ def test_db_create_POST(testing_wapp):
 		req = ctx.request(method = 'POST')
 		with ctx.redirect('/_/setup'):
 			setup.dbCreate(req = req)
+
+def test_db_is_created(testing_wapp):
+	with testing_wapp('core', db = True) as ctx:
+		d = setup.dbCreate()
+		assert isinstance(d, dict)
+		assert d == {
+			'db': {'config': '', 'driver': 'sqlite', 'name': ':memory:'},
+			'error': 'database already created?',
+		}
