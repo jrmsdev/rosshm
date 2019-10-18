@@ -19,5 +19,5 @@ recursive-include rosshm/tpl *.html
 recursive-include rosshm/wapp *.ini
 
 recursive-include t *.py
+recursive-include tlib *.py
 recursive-include tdata *.ini
-recursive-include tlib/testing *.py
