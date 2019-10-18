@@ -15,7 +15,7 @@ def test_database(testing_config):
 	with testing_config() as config:
 		db = config.database()
 		assert db['driver'] == 'sqlite'
-		assert db['name'].endswith('rosshmdb.sqlite')
+		assert db['name'] == ':memory:'
 		assert db['config'] == ''
 	with testing_config() as config:
 		fn = path.join(path.sep, 'testing', 'db.cfg')

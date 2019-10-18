@@ -21,7 +21,7 @@ def test_index(testing_wapp):
 			'db': {
 				'config': '',
 				'driver': 'sqlite',
-				'name': ':memory:',
+				'name': ':memory:core_testdb',
 			},
 			'error': None,
 			'status': {'status': 'ok'},

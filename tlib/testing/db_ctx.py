@@ -16,9 +16,7 @@ __all__ = ['db_ctx']
 def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False, close = True):
 	conn = None
 	with config_ctx(fn = cfgfn, init = cfginit) as config:
-		config._cfg.set('rosshm', 'db.driver', 'sqlite')
-		config._cfg.set('rosshm', 'db.name', ':memory:')
-		dbcfg = {'driver': 'sqlite', 'name': ':memory:', 'config': ''}
+		dbcfg = config.database()
 		conn = db.connect(dbcfg)
 		if create:
 			db.create(conn)
