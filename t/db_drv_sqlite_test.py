@@ -4,6 +4,8 @@
 from os import makedirs, path
 from shutil import rmtree
 
+from rosshm.db.lang.sqlite import SqliteLang
+
 _dbdir = path.join('tdata', 'var', 'sqlite')
 _dbfn = path.join(_dbdir, 'rosshm.sqlite')
 
@@ -14,3 +16,13 @@ def test_connect(testing_db):
 			pass
 	finally:
 		rmtree(_dbdir)
+
+def test_lang():
+	l = SqliteLang()
+	assert l.name == 'sqlite'
+	assert l.fmt == '?'
+	assert l.tableOptions() == ''
+	assert l.primaryKey() == 'pk INTEGER PRIMARY KEY AUTOINCREMENT'
+	assert l.valfmt(str) == '?'
+	assert l.valfmt(int) == '?'
+	assert l.valfmt(bool) == '?'
