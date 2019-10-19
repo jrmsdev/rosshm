@@ -2,6 +2,7 @@
 # See LICENSE file.
 
 from contextlib import contextmanager
+from os import path
 from unittest.mock import Mock
 
 from rosshm.core.db import db as coredb
@@ -16,12 +17,15 @@ __all__ = ['db_ctx']
 register('testing', DBTesting())
 
 @contextmanager
-def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False, close = True):
+def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False,
+	close = True, dbn = 'testing'):
 	conn = None
+	if dbn != 'testing':
+		cfgfn = path.join(dbn, cfgfn)
 	with config_ctx(fn = cfgfn, init = cfginit) as config:
 		dbcfg = config.database()
 		conn = db.connect(dbcfg)
-		dbn = config.get('testing.dbn', 'testing')
+		dbn = config.get('testing.dbn', dbn)
 		if create:
 			if dbn == 'core':
 				coredb.create(conn)
