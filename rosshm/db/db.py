@@ -43,11 +43,11 @@ def create(conn, admin = None):
 	meta = DBSchema()
 	# init schema tracking table first
 	log.debug(f"create tables {list(reg.DB.tables.keys())}")
-	tbl = reg.DB.tables.get(meta.table)
+	tbl = reg.DB.tables['core'].get(meta.table)
 	assert tbl
 	tbl.create(conn)
 	# init the rest of them
-	for tbl in reg.DB.tables.values():
+	for tbl in reg.DB.tables['core'].values():
 		if tbl.name != meta.table:
 			tbl.create(conn)
 		# save schema metadata

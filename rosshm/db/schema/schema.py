@@ -13,4 +13,4 @@ class DBSchema(DBObject):
 		},
 	}
 
-register(DBSchema())
+register('core', DBSchema())

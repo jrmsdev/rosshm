@@ -13,4 +13,4 @@ class DBUser(DBObject):
 		},
 	}
 
-register(DBUser())
+register('core', DBUser())

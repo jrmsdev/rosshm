@@ -12,4 +12,4 @@ class DBStatus(DBObject):
 		},
 	}
 
-register(DBStatus())
+register('core', DBStatus())

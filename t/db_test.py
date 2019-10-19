@@ -29,7 +29,7 @@ def test_register_error(testing_db):
 		obj = Mock()
 		obj.table = 'schema'
 		with raises(RuntimeError, match = 'table schema already registered'):
-			register(obj)
+			register('core', obj)
 
 def test_checkdb(testing_db):
 	with testing_db(create = False):
