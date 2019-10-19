@@ -6,6 +6,7 @@ from pytest import raises
 from unittest.mock import Mock
 
 from rosshm import config
+from rosshm.core.db import db as coredb
 from rosshm.core.db import check
 from rosshm.core.db.check import checkdb
 from rosshm.db import db
@@ -21,7 +22,7 @@ def test_config(testing_db):
 
 def test_create(testing_db):
 	with testing_db() as conn:
-		row = db.status(conn)
+		row = coredb.status(conn)
 		assert row['status'] == 'ok'
 
 def test_register_error(testing_db):
@@ -58,13 +59,13 @@ def test_checkdb_makedirs(testing_db):
 
 def test_checkdb_no_status(testing_db):
 	with testing_db(close = False) as conn:
-		status = check.db.status
+		status = check.coredb.status
 		try:
-			check.db.status = Mock(return_value = None)
+			check.coredb.status = Mock(return_value = None)
 			assert not checkdb(config, conn = conn)
 		finally:
-			del check.db.status
-			check.db.status = status
+			del check.coredb.status
+			check.coredb.status = status
 
 def test_invalid_driver():
 	cfg = {'driver': 'nodrv', 'name': 'testing', 'config': ''}

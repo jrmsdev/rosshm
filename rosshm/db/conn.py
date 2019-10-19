@@ -34,9 +34,9 @@ class DBConn(object):
 		self._conn.rollback()
 
 	def execute(self, op, param = tuple()):
-		log.debug('execute')
 		if self._cur is None:
 			log.debug('new cursor')
 			self._cur = self._conn.cursor()
+		log.debug('execute')
 		self._cur.execute(op, param)
 		return self._cur

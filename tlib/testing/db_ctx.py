@@ -4,6 +4,7 @@
 from contextlib import contextmanager
 from unittest.mock import Mock
 
+from rosshm.core.db import db as coredb
 from rosshm.db import db
 from rosshm.db.table import DBTable
 
@@ -19,7 +20,7 @@ def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False, cl
 		dbcfg = config.database()
 		conn = db.connect(dbcfg)
 		if create:
-			db.create('core', conn)
+			coredb.create(conn)
 			if db_t:
 				_t = DBTable(DBTesting())
 				_t.create(conn)

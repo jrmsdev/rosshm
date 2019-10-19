@@ -5,6 +5,7 @@ from os import path, makedirs
 
 from rosshm import log
 from rosshm.db import db
+from rosshm.core.db import db as coredb
 
 __all__ = ['checkdb']
 
@@ -30,7 +31,7 @@ def checkdb(config, conn = None):
 
 def _check(conn):
 	log.debug('db status')
-	s = db.status(conn)
+	s = coredb.status(conn)
 	if not s:
 		return False
 	return s['status'] == 'ok'

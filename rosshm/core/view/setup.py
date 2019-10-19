@@ -8,6 +8,7 @@ from os import path
 
 from rosshm import log, config
 from rosshm.db import db
+from rosshm.core.db import db as coredb
 
 __all__ = ['redirect', 'index', 'dbCreate']
 
@@ -29,7 +30,7 @@ def _dbstatus():
 	error = None
 	try:
 		conn = _dbconn()
-		status = db.status(conn)
+		status = coredb.status(conn)
 		conn.close()
 		if status is not None:
 			status = dict(status)
@@ -62,7 +63,7 @@ def dbCreate(req = None):
 		try:
 			conn = _dbconn()
 			log.info(f"create admin user: {admin.username}")
-			rv = db.create('core', conn, admin)
+			rv = coredb.create(conn, admin)
 			conn.commit()
 			bottle.redirect('/_/setup')
 		except db.IntegrityError as err:
