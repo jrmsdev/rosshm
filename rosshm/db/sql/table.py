@@ -31,6 +31,8 @@ def _mkfield(name, typ, args):
 		f += " INT"
 	if not args.get('null', False):
 		f += " NOT NULL"
+	if args.get('unique', False):
+		f += " UNIQUE"
 	return f
 
 def _mkStr(args):

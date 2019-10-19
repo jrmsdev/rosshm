@@ -8,7 +8,7 @@ class DBSchema(DBObject):
 	table = 'schema'
 	schema = {
 		0: {
-			'object':  (str, {'size': 64}),
+			'object':  (str, {'size': 64, 'unique': True}),
 			'version': (int, {}),
 		},
 	}
