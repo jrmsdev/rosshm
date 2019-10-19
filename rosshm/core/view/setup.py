@@ -62,10 +62,11 @@ def dbCreate(req = None):
 		try:
 			conn = _dbconn()
 			log.info(f"create admin user: {admin.username}")
-			rv = db.create(conn)
+			rv = db.create(conn, admin)
+			conn.commit()
 			bottle.redirect('/_/setup')
 		except db.IntegrityError as err:
-			log.error(f"create database: {err}")
+			log.error(f"create database integrity error: {err}")
 			rv['error'] = str(err)
 			if conn is not None:
 				log.debug('rollback')
@@ -73,6 +74,9 @@ def dbCreate(req = None):
 		except db.DatabaseError as err:
 			log.error(f"create database: {err}")
 			rv['error'] = str(err)
+			if conn is not None:
+				log.debug('rollback')
+				conn.rollback()
 		finally:
 			if conn is not None:
 				conn.close()

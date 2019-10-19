@@ -20,5 +20,3 @@ class DBTable(object):
 		log.debug(f"create {self.name}")
 		stmt = sql.createTable(self.name, self.fields)
 		db.execute(stmt)
-		log.debug('commit changes')
-		db.commit()
