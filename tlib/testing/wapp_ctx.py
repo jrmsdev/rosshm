@@ -23,21 +23,26 @@ class WappCtx(object):
 		self.config = config
 		self.db = dbconn
 
-	def request(self, method = 'GET', path = '/', qs = '', body = None):
+	def request(self, method = 'GET', path = '/', qs = '', body = None, post = None):
+		if post is not None:
+			method = 'POST'
+		blen = 0
+		if body is not None:
+			blen = len(body)
 		env = {
 			'REQUEST_METHOD': method,
 			'PATH_INFO': path,
 			'QUERY_STRING': qs,
+			'CONTENT_LENGTH': str(blen),
 		}
 		req = bottle.LocalRequest(environ = env)
-		blen = 0
-		if body is not None:
-			blen = len(body)
-		req.environ['CONTENT_LENGTH'] = str(blen)
 		req.environ['wsgi.input'] = BytesIO()
 		if blen > 0:
 			req.environ['wsgi.input'].write(body)
 			req.environ['wsgi.input'].seek(0, 0)
+		if post is not None:
+			for k, v in post.items():
+				req.forms.replace(k, v)
 		assert req.method == method
 		assert req.path == path
 		return req

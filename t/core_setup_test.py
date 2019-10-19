@@ -42,7 +42,7 @@ def test_db_create(testing_wapp):
 
 def test_db_create_POST(testing_wapp):
 	with testing_wapp('core') as ctx:
-		req = ctx.request(method = 'POST')
+		req = ctx.request(post = {'admin_user': 'admin', 'admin_password': 'testing'})
 		with ctx.redirect('/_/setup'):
 			setup.dbCreate(req = req)
 
@@ -55,7 +55,7 @@ def test_db_is_created(testing_wapp):
 
 def test_db_integrity_error(testing_wapp):
 	with testing_wapp('core') as ctx:
-		req = ctx.request(method = 'POST')
+		req = ctx.request(post = {'admin_user': 'admin', 'admin_password': 'testing'})
 		db_create = setup.db.create
 		try:
 			setup.db.create = Mock()
@@ -69,7 +69,7 @@ def test_db_integrity_error(testing_wapp):
 
 def test_database_error(testing_wapp):
 	with testing_wapp('core', db = True) as ctx:
-		req = ctx.request(method = 'POST')
+		req = ctx.request(post = {'admin_user': 'admin', 'admin_password': 'testing'})
 		_dbconn = setup._dbconn
 		try:
 			setup._dbconn = Mock()
