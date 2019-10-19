@@ -24,6 +24,7 @@ def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False, cl
 				_t = DBTable(DBTesting())
 				_t.create(conn)
 		try:
+				conn.commit()
 				yield conn
 		finally:
 			if close and conn is not None:
