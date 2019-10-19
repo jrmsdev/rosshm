@@ -13,15 +13,15 @@ class DBConn(object):
 
 	def __del__(self):
 		if not self._closed:
-			self.close()
+			self.close(nolog = True)
 
-	def close(self):
-		log.debug('close')
+	def close(self, nolog = False):
+		if not nolog: log.debug('close')
 		if self._cur is not None:
-			log.debug('close cursor')
+			if not nolog: log.debug('close cursor')
 			self._cur.close()
 			self._cur = None
-		log.debug('close connection')
+		if not nolog: log.debug('close connection')
 		self._conn.close()
 		self._closed = True
 
