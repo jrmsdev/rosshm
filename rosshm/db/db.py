@@ -37,6 +37,7 @@ def create(dbn, conn, **initdb_args):
 	# create schema tracking table first
 	log.info(f"create {dbn} schema")
 	meta = DBSchema()
+	meta.dbn = dbn
 	tbl = DBTable(meta)
 	tbl.create(conn)
 	meta.set(conn, object = tbl.name, version = tbl.version)

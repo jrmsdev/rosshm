@@ -28,7 +28,7 @@ def test_create(testing_db):
 def test_register_error(testing_db):
 	with testing_db(db_t = True):
 		with raises(RuntimeError, match = 'table testing already registered'):
-			register('testing', db_t)
+			register(db_t)
 
 def test_invalid_driver():
 	cfg = {'driver': 'nodrv', 'name': 'testing', 'config': ''}

@@ -23,4 +23,4 @@ def initdb(conn, admin = None):
 	s.set(conn, status = 'ok')
 	return {}
 
-register('core', initdb = initdb)
+register(dbn = 'core', initdb = initdb)

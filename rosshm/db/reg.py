@@ -17,12 +17,14 @@ class DB(object):
 #
 # register db schema
 #
-def register(dbn, obj = None, initdb = None):
+def register(obj = None, dbn = 'db', initdb = None):
 	if initdb is not None:
 		if DB.init.get(dbn, None) is not None:
 			raise RuntimeError(f"{dbn} db init func already registered")
 		DB.init[dbn] = initdb
 	else:
+		if obj.dbn is not None:
+			dbn = obj.dbn
 		if not DB.tables.get(dbn, False):
 			DB.tables[dbn] = {}
 		if DB.tables[dbn].get(obj.table, False):

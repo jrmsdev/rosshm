@@ -5,6 +5,7 @@ from rosshm.db.obj import DBObject
 from rosshm.db.reg import register
 
 class DBStatus(DBObject):
+	dbn = 'core'
 	table = 'status'
 	schema = {
 		0: {
@@ -12,4 +13,4 @@ class DBStatus(DBObject):
 		},
 	}
 
-register('core', DBStatus())
+register(DBStatus())

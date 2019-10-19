@@ -8,7 +8,7 @@ from rosshm import log
 lang = None
 
 def create(name, fields):
-	s = f"CREATE TABLE rosshm_{name}"
+	s = f"CREATE TABLE {name}"
 	fl = deque()
 	fl.append(lang.primaryKey())
 	for f, d in fields.items():

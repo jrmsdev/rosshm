@@ -9,7 +9,7 @@ from rosshm.db.utils import fieldType
 lang = None
 
 def select(obj, filter, where):
-	table = obj.table
+	table = f"{obj.dbn}_{obj.table}"
 	fields = tuple(obj.fields.keys())
 	args = tuple()
 	select = '*'
@@ -22,7 +22,7 @@ def select(obj, filter, where):
 			if n in fields:
 				names.append(n)
 		select = "%s" % ', '.join(names)
-	s = f"SELECT {select} FROM rosshm_{table} WHERE"
+	s = f"SELECT {select} FROM {table} WHERE"
 	i = 0
 	cond = ' AND '
 	for k, v in where.items():

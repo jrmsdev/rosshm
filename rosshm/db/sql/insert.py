@@ -9,7 +9,7 @@ from rosshm.db.utils import fieldType
 lang = None
 
 def insert(obj, data):
-	table = obj.table
+	table = f"{obj.dbn}_{obj.table}"
 	fields = tuple(obj.fields.keys())
 	fl = deque()
 	vl = deque()
@@ -20,7 +20,7 @@ def insert(obj, data):
 			typ = fieldType(obj.fields, k)
 			vfmt.append(lang.valfmt(typ))
 			vl.append(typ(v))
-	s = f"INSERT INTO rosshm_{table}"
+	s = f"INSERT INTO {table}"
 	s += " (%s)" % ', '.join(fl)
 	s += " VALUES (%s);" % ', '.join(vfmt)
 	log.debug(s)

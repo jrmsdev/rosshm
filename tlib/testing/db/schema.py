@@ -4,6 +4,7 @@
 from rosshm.db.obj import DBObject
 
 class DBTesting(DBObject):
+	dbn = 'testing'
 	table = 'testing'
 	schema = {
 		0: {

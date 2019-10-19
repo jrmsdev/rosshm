@@ -9,6 +9,7 @@ __all__ = ['DBObject']
 # object manager
 #
 class DBObject(object):
+	dbn = None
 	table = None
 	schema = None
 

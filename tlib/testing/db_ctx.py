@@ -13,7 +13,7 @@ from testing.db.schema import DBTesting
 
 __all__ = ['db_ctx']
 
-register('testing', DBTesting())
+register(obj = DBTesting())
 
 @contextmanager
 def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False,
@@ -29,6 +29,7 @@ def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False,
 			db.create(dbn, conn)
 			if db_t:
 				_t = DBTesting()
+				_t.dbn = dbn
 				_t.set(conn, value = 'testing', option = 'testing')
 			conn.commit()
 		try:

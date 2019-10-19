@@ -5,6 +5,7 @@ from rosshm.db.obj import DBObject
 from rosshm.db.reg import register
 
 class DBUser(DBObject):
+	dbn = 'core'
 	table = 'user'
 	schema = {
 		0: {
@@ -13,4 +14,4 @@ class DBUser(DBObject):
 		},
 	}
 
-register('core', DBUser())
+register(DBUser())

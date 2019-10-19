@@ -32,7 +32,7 @@ def test_no_status(testing_wapp):
 		d = setup.index()
 		assert isinstance(d, dict)
 		err = d['error']
-		assert err == 'no such table: rosshm_status'
+		assert err == 'no such table: core_status'
 
 def test_db_create(testing_wapp):
 	with testing_wapp('core') as ctx:
