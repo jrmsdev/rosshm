@@ -35,10 +35,8 @@ class DBConn(object):
 
 	def execute(self, op, param = tuple()):
 		log.debug('execute')
-		if self._cur is not None:
-			log.debug('close cursor')
-			self._cur.close()
-			self._cur = None
-		self._cur = self._conn.cursor()
+		if self._cur is None:
+			log.debug('new cursor')
+			self._cur = self._conn.cursor()
 		self._cur.execute(op, param)
 		return self._cur
