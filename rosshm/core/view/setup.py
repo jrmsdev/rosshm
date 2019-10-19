@@ -62,7 +62,7 @@ def dbCreate(req = None):
 		try:
 			conn = _dbconn()
 			log.info(f"create admin user: {admin.username}")
-			rv = db.create(conn, admin)
+			rv = db.create('core', conn, admin)
 			conn.commit()
 			bottle.redirect('/_/setup')
 		except db.IntegrityError as err:

@@ -38,7 +38,7 @@ def status(conn):
 	s = DBStatus()
 	return s.get(conn, 'status', pk = 1)
 
-def create(conn, admin = None):
+def create(dbn, conn, admin = None):
 	"""create database schema"""
 	meta = DBSchema()
 	# init schema tracking table first

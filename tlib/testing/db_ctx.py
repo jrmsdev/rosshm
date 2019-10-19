@@ -19,7 +19,7 @@ def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False, cl
 		dbcfg = config.database()
 		conn = db.connect(dbcfg)
 		if create:
-			db.create(conn)
+			db.create('core', conn)
 			if db_t:
 				_t = DBTable(DBTesting())
 				_t.create(conn)
