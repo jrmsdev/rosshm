@@ -2,8 +2,8 @@
 # See LICENSE file.
 
 from rosshm.db import db
-from rosshm.db.schema.status import DBStatus
-from rosshm.db.schema.user import DBUser
+from rosshm.core.db.schema.status import DBStatus
+from rosshm.core.db.schema.user import DBUser
 
 __all__ = ['create', 'status']
 

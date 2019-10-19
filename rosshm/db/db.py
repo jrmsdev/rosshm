@@ -4,7 +4,7 @@
 from rosshm import log
 from rosshm.db import reg
 from rosshm.db.conn import DBConn
-from rosshm.db.schema.schema import DBSchema
+from rosshm.db.schema import DBSchema
 
 __all__ = ['DatabaseError', 'IntegrityError', 'connect', 'create']
 

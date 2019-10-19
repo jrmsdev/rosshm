@@ -2,7 +2,7 @@
 # See LICENSE file.
 
 from rosshm import log
-from rosshm.db.schema.status import DBStatus
+from rosshm.core.db.schema.status import DBStatus
 
 _pk = 1
 
