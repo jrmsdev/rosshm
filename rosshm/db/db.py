@@ -6,6 +6,7 @@ from rosshm.db import reg
 from rosshm.db.conn import DBConn
 from rosshm.db.schema.schema import DBSchema
 from rosshm.db.schema.status import DBStatus
+from rosshm.db.schema.user import DBUser
 
 __all__ = ['DatabaseError', 'IntegrityError', 'connect', 'status', 'create']
 
@@ -37,7 +38,7 @@ def status(conn):
 	s = DBStatus()
 	return s.get(conn, 'status', pk = 1)
 
-def create(conn):
+def create(conn, admin = None):
 	"""create database schema"""
 	meta = DBSchema()
 	# init schema tracking table first
@@ -51,8 +52,11 @@ def create(conn):
 			tbl.create(conn)
 		# save schema metadata
 		meta.set(conn, object = tbl.name, version = tbl.version)
+	# create admin user if provided
+	if admin is not None:
+		u = DBUser()
+		u.set(conn, name = admin.username, fullname = 'admin user')
 	# set db status
 	s = DBStatus()
 	s.set(conn, status = 'ok')
-	conn.commit()
 	return {}
