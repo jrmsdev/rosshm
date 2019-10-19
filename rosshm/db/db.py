@@ -5,6 +5,7 @@ from rosshm import log
 from rosshm.db import reg
 from rosshm.db.conn import DBConn
 from rosshm.db.schema import DBSchema
+from rosshm.db.table import DBTable
 
 __all__ = ['DatabaseError', 'IntegrityError', 'connect', 'create']
 
@@ -33,16 +34,17 @@ def connect(cfg):
 
 def create(dbn, conn):
 	"""create database schema"""
-	meta = DBSchema()
 	# init schema tracking table first
-	log.debug(f"create tables {list(reg.DB.tables.keys())}")
-	tbl = reg.DB.tables[dbn].get(meta.table)
-	assert tbl
+	log.info(f"create {dbn} schema")
+	meta = DBSchema()
+	tbl = DBTable(meta)
 	tbl.create(conn)
-	# init the rest of them
+	meta.set(conn, object = tbl.name, version = tbl.version)
+	# init the rest of the tables
+	tables = list(reg.DB.tables[dbn].keys())
+	log.debug(f"create {dbn} tables {tables}")
 	for tbl in reg.DB.tables[dbn].values():
-		if tbl.name != meta.table:
-			tbl.create(conn)
-		# save schema metadata
+		log.info(f"create {dbn} table {tbl.name}")
+		tbl.create(conn)
 		meta.set(conn, object = tbl.name, version = tbl.version)
 	return {}

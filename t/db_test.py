@@ -6,11 +6,12 @@ from pytest import raises
 from unittest.mock import Mock
 
 from rosshm import config
-from rosshm.core.db import db as coredb
-from rosshm.core.db import check
-from rosshm.core.db.check import checkdb
 from rosshm.db import db
 from rosshm.db.reg import register
+
+from testing.db.schema import DBTesting
+
+db_t = DBTesting()
 
 def test_config(testing_db):
 	with testing_db(create = False) as conn:
@@ -21,51 +22,51 @@ def test_config(testing_db):
 		assert conn is not None
 
 def test_create(testing_db):
-	with testing_db() as conn:
-		row = coredb.status(conn)
-		assert row['status'] == 'ok'
+	with testing_db(db_t = True) as conn:
+		row = db_t.get(conn, 'value', option = 'testing')
+		assert row['value'] == 'testing'
 
 def test_register_error(testing_db):
-	with testing_db(create = False):
+	with testing_db(db_t = True):
 		obj = Mock()
-		obj.table = 'schema'
-		with raises(RuntimeError, match = 'table schema already registered'):
-			register('core', obj)
+		obj.table = 'testing'
+		with raises(RuntimeError, match = 'table testing already registered'):
+			register('testing', obj)
 
-def test_checkdb(testing_db):
-	with testing_db(create = False):
-		assert not checkdb(config)
-	with testing_db(close = False) as conn:
-		assert checkdb(config, conn = conn)
+# ~ def test_checkdb(testing_db):
+	# ~ with testing_db(create = False):
+		# ~ assert not checkdb(config)
+	# ~ with testing_db(close = False) as conn:
+		# ~ assert checkdb(config, conn = conn)
 
-def test_checkdb_makedirs(testing_db):
-	with testing_db(close = False) as conn:
-		makedirs = check.makedirs
-		isfile = check.path.isfile
-		try:
-			datadir = path.join(path.sep, 'testing')
-			check.makedirs = Mock()
-			check.path.isfile = Mock(return_value = False)
-			config._cfg.set('rosshm', 'datadir', datadir)
-			config._cfg.set('rosshm', 'db.name', 'testing.db')
-			checkdb(config, conn = conn)
-			check.path.isfile.assert_called_with(path.join(datadir, 'testing.db.sqlite'))
-			check.makedirs.assert_called_with(datadir, exist_ok = True, mode = 0o750)
-		finally:
-			del check.makedirs
-			check.makedirs = makedirs
-			del check.path.isfile
-			check.path.isfile = isfile
+# ~ def test_checkdb_makedirs(testing_db):
+	# ~ with testing_db(close = False) as conn:
+		# ~ makedirs = check.makedirs
+		# ~ isfile = check.path.isfile
+		# ~ try:
+			# ~ datadir = path.join(path.sep, 'testing')
+			# ~ check.makedirs = Mock()
+			# ~ check.path.isfile = Mock(return_value = False)
+			# ~ config._cfg.set('rosshm', 'datadir', datadir)
+			# ~ config._cfg.set('rosshm', 'db.name', 'testing.db')
+			# ~ checkdb(config, conn = conn)
+			# ~ check.path.isfile.assert_called_with(path.join(datadir, 'testing.db.sqlite'))
+			# ~ check.makedirs.assert_called_with(datadir, exist_ok = True, mode = 0o750)
+		# ~ finally:
+			# ~ del check.makedirs
+			# ~ check.makedirs = makedirs
+			# ~ del check.path.isfile
+			# ~ check.path.isfile = isfile
 
-def test_checkdb_no_status(testing_db):
-	with testing_db(close = False) as conn:
-		status = check.coredb.status
-		try:
-			check.coredb.status = Mock(return_value = None)
-			assert not checkdb(config, conn = conn)
-		finally:
-			del check.coredb.status
-			check.coredb.status = status
+# ~ def test_checkdb_no_status(testing_db):
+	# ~ with testing_db(close = False) as conn:
+		# ~ status = check.coredb.status
+		# ~ try:
+			# ~ check.coredb.status = Mock(return_value = None)
+			# ~ assert not checkdb(config, conn = conn)
+		# ~ finally:
+			# ~ del check.coredb.status
+			# ~ check.coredb.status = status
 
 def test_invalid_driver():
 	cfg = {'driver': 'nodrv', 'name': 'testing', 'config': ''}

@@ -2,7 +2,6 @@
 # See LICENSE file.
 
 from rosshm.db.obj import DBObject
-from rosshm.db.reg import register
 
 class DBSchema(DBObject):
 	table = 'schema'
@@ -12,5 +11,3 @@ class DBSchema(DBObject):
 			'version': (int, {}),
 		},
 	}
-
-register('core', DBSchema())

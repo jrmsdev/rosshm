@@ -7,7 +7,7 @@ class DBTesting(DBObject):
 	table = 'testing'
 	schema = {
 		0: {
-			'option': (str, {'size': 32}),
-			'value': (str, {}),
+			'option': (str, {'size': 32, 'unique': True}),
+			'value': (str, {'size': 64}),
 		}
 	}
