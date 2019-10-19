@@ -2,8 +2,8 @@
 # See LICENSE file.
 
 from rosshm import log
+from rosshm.core.db.check import checkdb
 from rosshm.core.view import setup, status
-from rosshm.db.check import checkdb
 from rosshm.wapp.plugin.db import DBPlugin
 
 __all__ = ['init']

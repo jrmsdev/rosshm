@@ -6,8 +6,9 @@ from pytest import raises
 from unittest.mock import Mock
 
 from rosshm import config
-from rosshm.db import db, check
-from rosshm.db.check import checkdb
+from rosshm.core.db import check
+from rosshm.core.db.check import checkdb
+from rosshm.db import db
 from rosshm.db.reg import register
 
 def test_config(testing_db):
