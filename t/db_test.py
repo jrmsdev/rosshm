@@ -75,7 +75,7 @@ def test_conn_rollback(testing_db):
 		conn.rollback()
 
 def test_del_close(testing_db):
-	with testing_db() as conn:
+	with testing_db(close = False) as conn:
 		assert not conn._closed
 		conn.__del__()
 		assert conn._closed
