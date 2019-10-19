@@ -12,7 +12,7 @@ __all__ = ['DBTable']
 class DBTable(object):
 
 	def __init__(self, obj):
-		self.name = f"{obj.dbn}_{obj.table}"
+		self.name = obj.tblname
 		self.fields = obj.fields
 		self.version = obj.version
 

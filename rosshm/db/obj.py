@@ -26,6 +26,10 @@ class DBObject(object):
 			# TODO: check field type, if it alters the table or what?
 			self.fields[f] = inf
 
+	@property
+	def tblname(self):
+		return f"{self.dbn}_{self.table}"
+
 	def set(self, db, **data):
 		stmt, args = sql.insert(self, data)
 		db.execute(stmt, args)

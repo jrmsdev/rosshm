@@ -9,7 +9,7 @@ from rosshm.db.utils import fieldType
 lang = None
 
 def select(obj, filter, where):
-	table = f"{obj.dbn}_{obj.table}"
+	table = obj.tblname
 	fields = tuple(obj.fields.keys())
 	args = tuple()
 	select = '*'
