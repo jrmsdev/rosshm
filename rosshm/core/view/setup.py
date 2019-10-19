@@ -2,6 +2,8 @@
 # See LICENSE file.
 
 import bottle
+
+from collections import namedtuple
 from os import path
 
 from rosshm import log, config
@@ -55,9 +57,11 @@ def dbCreate(req = None):
 	rv = {}
 	if req.method == 'POST':
 		log.debug('db create action')
+		admin = _getAdmin(req)
 		conn = None
 		try:
 			conn = _dbconn()
+			log.info(f"create admin user: {admin.username}")
 			rv = db.create(conn)
 			bottle.redirect('/_/setup')
 		except db.IntegrityError as err:
@@ -74,3 +78,20 @@ def dbCreate(req = None):
 				conn.close()
 	rv['db'] = config.database()
 	return rv
+
+_Admin = namedtuple('Admin', ['username', 'password'])
+
+def _getAdmin(req):
+	"""return admin username and password from request forms data as namedtuple"""
+	username = req.forms.admin_user,
+	password = req.forms.admin_password,
+	errors = []
+	if username[0] == '':
+		errors.append('admin username is empty')
+	if password[0] == '':
+		errors.append('admin password is empty')
+	if errors:
+		for err in errors:
+			log.error(err)
+		raise bottle.HTTPError(400, '\n'.join(errors))
+	return _Admin(username = username[0], password = password[0])

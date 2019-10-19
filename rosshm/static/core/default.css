@@ -2,15 +2,45 @@ html {
 	color: #111;
 	background-color: #444;
 	font-family: sans;
+	padding: 0;
+	margin: 0;
 }
 body {
 	background-color: #ddd;
 	border: 1px solid #bbb;
-	padding: 15px; margin: 15px;
+	padding: 0;
+	margin: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+}
+div.main {
+	margin: 0;
+	padding: 1em;
 }
 pre {
 	font-family: monospace;
 	background-color: #bbb;
 	border: 1px solid #aaa;
-	padding: 5px;
+	padding: 1em;
+}
+form {
+	margin: 1em;
+	padding: 0;
+}
+form label {
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+form input {
+	display: block;
+	width: 99%;
+	padding: 0.5em;
+	margin-bottom: 1em;
+}
+form button {
+	padding: 0.5em;
+	display: block;
 }

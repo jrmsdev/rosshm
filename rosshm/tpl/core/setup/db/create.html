@@ -5,6 +5,10 @@
 <pre>{{error}}</pre>
 % else:
 <form action="/_/setup/db/create" method="POST">
-	<input type="submit" value="create">
+	<label>admin user</label>
+	<input type="text" value="admin" name="admin_user" required="required">
+	<label>admin password</label>
+	<input type="password" name="admin_password" required="required">
+	<button type="submit">create</button>
 </form>
 % end
