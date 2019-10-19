@@ -29,7 +29,9 @@ def _mkfield(name, typ, args):
 		f += " %s" % _mkStr(args)
 	elif typ is int:
 		f += " INT"
-	if not args.get('null', False):
+	if args.get('null', False):
+		f += " NULL"
+	else:
 		f += " NOT NULL"
 	if args.get('unique', False):
 		f += " UNIQUE"
