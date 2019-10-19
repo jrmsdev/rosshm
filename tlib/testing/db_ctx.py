@@ -5,7 +5,6 @@ from contextlib import contextmanager
 from os import path
 from unittest.mock import Mock
 
-from rosshm.core.db import db as coredb
 from rosshm.db import db
 from rosshm.db.reg import register
 
@@ -27,10 +26,7 @@ def db_ctx(cfgfn = 'rosshm.ini', cfginit = True, create = True, db_t = False,
 		conn = db.connect(dbcfg)
 		dbn = config.get('testing.dbn', dbn)
 		if create:
-			if dbn == 'core':
-				coredb.create(conn)
-			else:
-				db.create(dbn, conn)
+			db.create(dbn, conn)
 			if db_t:
 				_t = DBTesting()
 				_t.set(conn, value = 'testing', option = 'testing')

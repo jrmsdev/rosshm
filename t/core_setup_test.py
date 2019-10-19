@@ -4,8 +4,8 @@
 import bottle
 from unittest.mock import Mock
 
-from rosshm.core.view import setup
 from rosshm.db import db
+from rosshm.core.view import setup
 
 def test_redirect(testing_wapp):
 	with testing_wapp('core') as ctx:

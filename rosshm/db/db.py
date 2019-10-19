@@ -32,19 +32,23 @@ def connect(cfg):
 		raise RuntimeError(f"invalid database driver: {drv}")
 	return DBConn(conn)
 
-def create(dbn, conn):
+def create(dbn, conn, **initdb_args):
 	"""create database schema"""
-	# init schema tracking table first
+	# create schema tracking table first
 	log.info(f"create {dbn} schema")
 	meta = DBSchema()
 	tbl = DBTable(meta)
 	tbl.create(conn)
 	meta.set(conn, object = tbl.name, version = tbl.version)
-	# init the rest of the tables
+	# create the rest of the tables
 	tables = list(reg.DB.tables[dbn].keys())
 	log.debug(f"create {dbn} tables {tables}")
 	for tbl in reg.DB.tables[dbn].values():
 		log.info(f"create {dbn} table {tbl.name}")
 		tbl.create(conn)
 		meta.set(conn, object = tbl.name, version = tbl.version)
+	# initialize database
+	initdb = reg.DB.init.get(dbn, None)
+	if initdb is not None:
+		initdb(conn, **initdb_args)
 	return {}
