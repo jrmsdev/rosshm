@@ -72,10 +72,10 @@ def database():
 		cfg['name'] = path.abspath(path.join(get('datadir'), f"{name}.{drv}"))
 	return cfg
 
-def get(option, **kwargs):
+def get(option, default = None):
 	"""get option value (string)"""
-	return _cfg.get('rosshm', option, **kwargs)
+	return _cfg.get('rosshm', option, fallback = default)
 
-def getbool(option, **kwargs):
+def getbool(option, default = None):
 	"""get option boolean value"""
-	return _cfg.getboolean('rosshm', option, **kwargs)
+	return _cfg.getboolean('rosshm', option, fallback = default)
