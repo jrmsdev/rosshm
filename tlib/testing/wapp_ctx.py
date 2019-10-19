@@ -4,6 +4,7 @@
 import bottle
 
 from contextlib import contextmanager
+from io import BytesIO
 from os import path
 from unittest.mock import Mock
 
@@ -22,13 +23,21 @@ class WappCtx(object):
 		self.config = config
 		self.db = dbconn
 
-	def request(self, method = 'GET', path = '/', qs = ''):
+	def request(self, method = 'GET', path = '/', qs = '', body = None):
 		env = {
 			'REQUEST_METHOD': method,
 			'PATH_INFO': path,
 			'QUERY_STRING': qs,
 		}
 		req = bottle.LocalRequest(environ = env)
+		blen = 0
+		if body is not None:
+			blen = len(body)
+		req.environ['CONTENT_LENGTH'] = str(blen)
+		req.environ['wsgi.input'] = BytesIO()
+		if blen > 0:
+			req.environ['wsgi.input'].write(body)
+			req.environ['wsgi.input'].seek(0, 0)
 		assert req.method == method
 		assert req.path == path
 		return req
